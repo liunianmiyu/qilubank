@@ -106,4 +106,20 @@ public class OperateService {
 	public Boolean saveDoc(Document doc){
 		return operateDao.saveDoc(doc);
 	}
+	/**
+	 * 根据文档id删除文档内容记录
+	 * @param docId 
+	 * @return
+	 */
+	public boolean deleteDoc(String docId){
+		return operateDao.deleteDoc(docId);
+	}
+	/**
+	 * 根据图片id删除图片记录
+	 * @param picId
+	 * @return
+	 */
+	public boolean deletePic(String picId){
+		return operateDao.deletePic(picId);
+	}
 }

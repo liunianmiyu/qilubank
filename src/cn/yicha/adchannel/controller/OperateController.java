@@ -64,4 +64,31 @@ public class OperateController extends Controller {
 		else
 			renderText("fail");
 	}
+	/**
+	 * 根据id删除文档记录
+	 */
+	@Clear
+	public void deleteDoc(){
+		String docId = getPara("docId");
+		boolean result  = operateService.deleteDoc(docId);
+		if(result){
+			renderText("success");
+		}
+		else{
+			renderText("fail");
+		}
+	}
+	/**
+	 * 根据id删除图片记录
+	 */
+	public void deletePic(){
+		String picId = getPara("picId");
+		boolean result = operateService.deletePic(picId);
+		if(result){
+			renderText("success");
+		}
+		else{
+			renderText("fail");
+		}
+	}
 }

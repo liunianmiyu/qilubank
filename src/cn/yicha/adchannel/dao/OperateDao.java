@@ -79,4 +79,20 @@ public class OperateDao {
 			bool = doc.update();
 		return bool;
 	}
+	/**
+	 * 根据文档id删除document表中文档内容记录
+	 * @param docId
+	 * @return
+	 */
+	public boolean deleteDoc(String docId){
+		return Document.dao.deleteById(docId);
+	}
+	/**
+	 * 根据图片id删除picture表中图片记录
+	 * @param picId
+	 * @return
+	 */
+	public boolean deletePic(String picId){
+		return Picture.dao.deleteById(picId);
+	}
 }

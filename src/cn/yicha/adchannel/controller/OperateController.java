@@ -1,8 +1,6 @@
 package cn.yicha.adchannel.controller;
 
-import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
-
 import cn.yicha.adchannel.model.Document;
 import cn.yicha.adchannel.service.OperateService;
 /**
@@ -39,6 +37,13 @@ public class OperateController extends Controller {
 	public void pic(){
 		String id= getPara("id");
 		renderJson(operateService.selectPicByItemId(Integer.parseInt(id)));
+	}
+	/**
+	 * 根据条目id查询包含的文档和图片信息
+	 */
+	public void getDocAndPic(){
+		int itemId = getParaToInt("id");
+		renderJson(operateService.selectDouAndPicByItemId(itemId));
 	}
 	/**
 	 * 搜索框的模糊查询

@@ -2,8 +2,6 @@ package cn.yicha.adchannel.dao;
 
 import java.util.List;
 
-import com.jfinal.plugin.activerecord.Model;
-
 import cn.yicha.adchannel.model.Document;
 import cn.yicha.adchannel.model.Item;
 import cn.yicha.adchannel.model.Module;
@@ -29,7 +27,7 @@ public class OperateDao {
 	 * 查询模块表中的所有记录
 	 * @return
 	 */
-	public List selectModule(){
+	public List<Module> selectModule(){
 		return Module.dao.find("select * from module");
 	}
 	/**
@@ -37,7 +35,7 @@ public class OperateDao {
 	 * @param id
 	 * @return
 	 */
-	public List selectItemByProgramId(Integer id){
+	public List<Item> selectItemByProgramId(Integer id){
 		return Item.dao.find("select * from item where program_id="+id);
 	}
 	/**
@@ -45,7 +43,7 @@ public class OperateDao {
 	 * @param id
 	 * @return
 	 */
-	public List selectDocByItemId(Integer id){
+	public List<Document> selectDocByItemId(Integer id){
 		return Document.dao.find("select * from document where item_id="+id);
 	}
 	/**
@@ -53,10 +51,10 @@ public class OperateDao {
 	 * @param id
 	 * @return
 	 */
-	public List selectPicByItemId(Integer id){
+	public List<Picture> selectPicByItemId(Integer id){
 		return Picture.dao.find("select * from picture where item_id="+id);
 	}
-	public List selectProgramById(Integer id){
+	public List<Program> selectProgramById(Integer id){
 		return  Program.dao.find("select * from program where module_id = "+id);
 	}
 	/**
@@ -64,7 +62,7 @@ public class OperateDao {
 	 * @param key
 	 * @return
 	 */
-	public List selectDoc(String key){
+	public List<Document> selectDoc(String key){
 		return Document.dao.find("select * from document where content like '%"+key+"%'");
 	}
 	/**

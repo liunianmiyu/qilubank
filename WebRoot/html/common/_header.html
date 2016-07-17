@@ -1,51 +1,44 @@
 <!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-static-top" role="navigation"
-	style="margin-bottom: 0">
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation" style="margin-bottom: 0">
 	<div class="navbar-header">
-		<button type="button" class="navbar-toggle" data-toggle="collapse"
-			data-target=".navbar-collapse">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="${rootPath}/task/"
-			style="font-size: 25px;"> 齐鲁银行东环支行档案管理平台 </a>
+		<a class="navbar-brand" href="/index" style="font-size: 25px;"> 齐鲁银行东环支行档案管理平台 </a>
 	</div>
 	<!-- /.navbar-header -->
-
 	<ul class="nav navbar-top-links navbar-right" style="height: 50px;">
-		<li class="light-blue"><a data-toggle="dropdown" href="#"
-			class="dropdown-toggle" style="height: 50px;"> <img
-				class="nav-user-photo" src="${rootPath}/images/user.jpg"
-				alt="Jason's Photo" style="margin-top: -8px; border-radius: 50%;" />
-				<span class="user-info"> <small>Welcome,</small>
-					${session["user"]}
-			</span> <i class="ace-icon fa fa-caret-down"></i>
-		</a>
-
-			<ul
-				class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+		<li class="light-blue">
+			<a data-toggle="dropdown" href="#" class="dropdown-toggle" style="height: 50px;"> 
+			    <img class="nav-user-photo" src="${rootPath}/images/user.jpg" style="margin-top: -8px; border-radius: 50%;" />
+				<span class="user-info"> <small>Welcome,</small>${session["user"]}</span> 
+				<i class="ace-icon fa fa-caret-down"></i>
+		    </a>
+			<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
 				<!-- <li class="divider"></li> -->
-				<li><a href="${rootPath}/logout/"> <i
-						class="ace-icon fa fa-power-off"></i> Logout
-				</a></li>
-			</ul></li>
+				<li>
+					<a href="${rootPath}/logout/"> 
+						<i class="ace-icon fa fa-power-off"></i> Logout
+					</a>
+				</li>
+			</ul>
+		</li>
 	</ul>
 	<!-- /.navbar-top-links -->
 
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
-			<ul class="nav" id="side-menu">
-				<li>
-					<a href="#"><i class="fa fa-building-o fa-fw"></i>环境管理<span class="fa arrow"></span></a>
-					<ul class="nav nav-second-level">
-						<li><a href="#">室外环境维护</a></li>
-						<li><a href="#">室内环境维护</a></li>
-						<li><a href="#">便民服务</a></li>
-						<li><a href="#">营业环境设置</a></li>
-					</ul>
-				</li>
-				<li><a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>服务功能</a></li>
-				<li><a href="#"><i class="fa fa-wrench fa-fw"></i>信息管理</a></li>
+			<div class="input-group custom-search-form" style="padding: 10px 10px; background-color: #228b22;">
+                <input type="text" class="form-control" placeholder="Search...">
+                <span class="input-group-btn">
+	                <button class="btn btn-default" type="button">
+	                    <i class="fa fa-search"></i>
+	                </button>
+            	</span>
+            </div>
+			<ul class="nav metisMenu" id="menu">
+				
 			</ul>
 		</div>
 		<!-- /.sidebar-collapse -->

@@ -7,7 +7,9 @@ import java.util.Map;
 
 import cn.yicha.adchannel.dao.OperateDao;
 import cn.yicha.adchannel.model.Document;
+import cn.yicha.adchannel.model.Item;
 import cn.yicha.adchannel.model.Module;
+import cn.yicha.adchannel.model.Picture;
 import cn.yicha.adchannel.model.Program;
 /**
  * 
@@ -33,18 +35,18 @@ public class OperateService {
 	 * 查询模块和他的下级项目
 	 * @return
 	 */
-	public List selectMenu(){
-		List<Map> list = new ArrayList<Map>();
-		Map map = null;
+	public List<Map<String, Object>> selectMenu(){
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		Map<String, Object> map = null;
 		List<Program> temp = null;
 		//查询模块表
 		List<Module> listModule= operateDao.selectModule();
 		for(Module m : listModule){
-			map = new HashMap();
+			map = new HashMap<String, Object>();
 			map.put("moduleId", m.get("id"));
 			map.put("moduleName", m.get("name"));
 			//根据模块id查询项目表信息
-			temp = operateDao.selectProgramById(Integer.parseInt(m.get("id").toString()));
+			temp = operateDao.selectProgramById(m.getInt("id"));
 			map.put("programs", temp);
 			list.add(map);
 		}
@@ -56,7 +58,7 @@ public class OperateService {
 	 * @param id
 	 * @return
 	 */
-	public List selectItemByProgramId(Integer id){
+	public List<Item> selectItemByProgramId(Integer id){
 		return operateDao.selectItemByProgramId(id);
 	}
 	/**
@@ -64,7 +66,7 @@ public class OperateService {
 	 * @param id
 	 * @return
 	 */
-	public List selectDocByItemId(Integer id){
+	public List<Document> selectDocByItemId(Integer id){
 		return operateDao.selectDocByItemId(id);
 	}
 	/**
@@ -72,7 +74,7 @@ public class OperateService {
 	 * @param id
 	 * @return
 	 */
-	public List selectPicByItemId(Integer id){
+	public List<Picture> selectPicByItemId(Integer id){
 		return operateDao.selectPicByItemId(id);
 	}
 	/**
@@ -80,8 +82,20 @@ public class OperateService {
 	 * @param key
 	 * @return
 	 */
-	public List selectDoc(String key){
+	public List<Document> selectDoc(String key){
 		return operateDao.selectDoc(key);
+	}
+	
+	/**
+	 * 根据itemid 查询文档和图片
+	 * @param itemId
+	 * @return
+	 */
+	public Map<String, Object> selectDouAndPicByItemId(int itemId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("doc", operateDao.selectDocByItemId(itemId));
+		map.put("pic", operateDao.selectPicByItemId(itemId));
+		return map;
 	}
 	/**
 	 * 

@@ -67,7 +67,6 @@ public class OperateController extends Controller {
 	/**
 	 * 根据id删除文档记录
 	 */
-	@Clear
 	public void deleteDoc(){
 		String docId = getPara("docId");
 		boolean result  = operateService.deleteDoc(docId);

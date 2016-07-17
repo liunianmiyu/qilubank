@@ -2,6 +2,7 @@ package cn.yicha.adchannel.route;
 
 import cn.yicha.adchannel.controller.LoginController;
 import cn.yicha.adchannel.controller.OperateController;
+import cn.yicha.adchannel.controller.UploadController;
 import cn.yicha.adchannel.controller.IndexController;
 
 import com.jfinal.config.Routes;
@@ -19,6 +20,7 @@ public class ControllerRoutes extends Routes {
 		add("/", LoginController.class);
 		add("/index", IndexController.class);
 		add("/operate", OperateController.class);
+		add("/upload", UploadController.class);
 	}
 
 }

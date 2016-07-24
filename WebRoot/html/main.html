@@ -66,6 +66,9 @@
  
            }
 			$(document).ready(function(){
+				if($(window).width()<1300){
+					$('.container').css('width','90%');
+				}
 				$.getJSON('menu',function(data){
 					var htmlStr = "";
 	    			$(data).each(function(index,item){

@@ -73,6 +73,9 @@
 		</style>
 		<script>
 			$(document).ready(function(){
+				if($(window).width()<1300){
+					$('.container').css('width','90%');
+				}
 				$('#myCarousel').carousel();
 				//$(document).off('click.bs.dropdown.data-api');
 		/**		$.getJSON('/html/menu.json',function(data){

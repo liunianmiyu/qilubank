@@ -133,7 +133,7 @@ public class OperateDao {
 	 * @return
 	 */
 	public List<Document> selectDoc(String key) {
-		return Document.dao.find("select * from document where content like '%" + key + "%'");
+		return Document.dao.find("select * from document where content like '%" + key + "%' or name like '%"+key+"%'");
 	}
 
 	/**

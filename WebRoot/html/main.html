@@ -120,10 +120,10 @@
 					for(var i=0;i<data.length;i++){
 						divPic +='<div class="col-sm-6 col-md-3 col-lg-3">'+
 								    '<div class="thumbnail">'+
+									    '<div class="caption">'+
+									        '<h3>'+data[i].desc+'</h3>'+
+									      '</div>'+
 								      '<img src="${rootPath}'+data[i].url+'">'+
-								      '<div class="caption">'+
-								        '<h3>'+data[i].desc+'</h3>'+
-								      '</div>'+
 								    '</div>'+
 								  '</div>';
 					}
@@ -231,10 +231,10 @@
 					for(var i=0;i<pic.length;i++){
 						divPic +='<div class="col-sm-6 col-md-3 col-lg-3">'+
 								    '<div class="thumbnail">'+
+									    '<div class="caption">'+
+									        '<h3>'+pic[i].desc+'</h3>'+
+									      '</div>'+
 								      '<img src="${rootPath}'+pic[i].url+'">'+
-								      '<div class="caption">'+
-								        '<h3>'+pic[i].desc+'</h3>'+
-								      '</div>'+
 								    '</div>'+
 								  '</div>';
 					}

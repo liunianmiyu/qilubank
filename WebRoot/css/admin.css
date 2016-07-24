@@ -36,7 +36,7 @@ body {
 }
 
 .navbar-top-links li:last-child {
-    margin-right: 15px;
+    
 }
 
 .navbar-top-links li a {
@@ -98,7 +98,7 @@ body {
     border-bottom: 1px solid #e7e7e7;
 }
 
-.sidebar ul li a.active {
+.liactive {
     background-color: #eee;
 }
 

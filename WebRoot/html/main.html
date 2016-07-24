@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>齐鲁银行</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="../css/bootstrap.min.css" />
+		<script type="text/javascript" src="../js/jquery-1.11.3.js" ></script>
+		<script type="text/javascript" src="../js/bootstrap.min.js" ></script>
+		<style>
+			body{
+				background-image: url(../images/page-bg-1.jpg);
+			}
+			.container{
+				width:72%;
+			}
+			.head{
+				height:100px;
+				width:100%;
+				margin-left:0;
+				margin-bottom:10px;
+				background:url(../images/header.jpg) no-repeat;
+				background-color:white;
+			}
+			.color-bar-1, .color-bar-2 { width:100% }
+			.color-bar-1 { background:#F4A200; height:5px; }
+			.color-bar-2 { height:3px;background:#0099DC; }
+			.dropdown-menu li.active,li.dropdown.active{
+				background-color: cadetblue;
+			}
+			.dropdown-toggle{
+				font-size:16px;
+			}
+			.nav > li > a{
+				padding-right:5px;
+			}
+			.program:hover,.item:hover,.path:hover,.doc:hover{
+				position:relative;
+				top:1px;
+				left:1px;
+				color:red;
+				text-decoration: none;
+				cursor: pointer;
+			}
+			
+			.doc{
+				text-align:left;
+				font-size:20px;
+			}
+			a:hover{
+				position:relative;
+				top:1px;
+				left:1px;
+				text-decoration: none;
+			}
+			#tab{
+				font-size:20px;
+				font-family:"楷体";
+			}
+		</style>
+		<script>
+			function setHeight(){
+                 var max_height = document.documentElement.clientHeight-250;
+                 var primary = document.getElementById('tab');
+                 //primary.style.minHeight = max_height+"px";                                    
+ 
+           }
+			$(document).ready(function(){
+				$.getJSON('menu',function(data){
+					var htmlStr = "";
+	    			$(data).each(function(index,item){
+	    				var moduleName = item.moduleName;
+	    				if(moduleName.length>8)
+	    					moduleName = moduleName.substr(0,8)+"...";
+	    				htmlStr +=  '<li class="dropdown">'+
+							         	'<a class="dropdown-toggle" style="color:rgb(102, 24, 24);" data-toggle="dropdown" href="" id="module_'+item.moduleId+'">'+moduleName+'<b class="caret"></b></a>'+
+							         	'<ul class="dropdown-menu">';
+						for(var i = 0;i<item.programs.length;i++){
+							if(moduleName=='员工风采' || moduleName == '企业年鉴')
+								htmlStr +=  '<li><a href="#tab" data-toggle="tab" id="dept_'+item.programs[i].id+'" onclick="showTab(this)">'+item.programs[i].name+'</a></li>';
+							else
+								htmlStr +=  '<li><a href="#tab" data-toggle="tab" id="program_'+item.programs[i].id+'" onclick="showTab(this)">'+item.programs[i].name+'</a></li>';
+						}
+						htmlStr +=  	 '</ul>'+
+							         '</li>';
+	    			});
+	    			$("#menu").html(htmlStr);
+	    			var param="${id}";
+    				var type = param.split('_')[0];
+	    			var id = param.split('_')[1];
+					if(type == 'item')
+						shwoDocPic(id);
+					else if(type == 'search'){
+						 search(id);
+					}else if(type == 'module'){
+						showProgram(id);
+					}else if(type == 'dept'){
+						showDept(id);
+					}else{
+						showTab($("#"+param)[0]);
+					}
+				});
+			});
+			function showProgram(id){
+				showPath("module_"+id);
+				$.getJSON('getModule?id='+id,function(data){
+					var tableStr = '<table class="table"><thead></thead><tbody>';
+					for(var i=0;i<data.length;i++){
+						tableStr += '<tr><td class="program" id="program_'+data[i].id+'">'+(i+1)+'、'+data[i].name+'</td></tr>';
+					}
+					tableStr += '</tbody></table>';
+					$('#tab').html(tableStr);
+				});
+				
+			}
+			function showDept(id){
+				showPath("program_"+id);
+				$.getJSON('pic?id='+id,function(data){
+					var divPic = '<div class="row">';
+					for(var i=0;i<data.length;i++){
+						divPic +='<div class="col-sm-6 col-md-3 col-lg-3">'+
+								    '<div class="thumbnail">'+
+								      '<img src="${rootPath}'+data[i].url+'">'+
+								      '<div class="caption">'+
+								        '<h3>'+data[i].desc+'</h3>'+
+								      '</div>'+
+								    '</div>'+
+								  '</div>';
+					}
+					divPic += '</div>';
+					if(data.length == 0)
+						divPic = '暂无图片可查阅';
+					$('#tab').html(divPic);
+				});
+			}
+			function showPath(idStr){
+				 $.ajax({
+				  url: 'path?id='+idStr,
+				  async: false,
+				  success:function(data){
+					  $('#path').html(data);
+				  }
+				})
+			}
+			function showTab(dom){
+				var type = dom.id.split('_')[0];
+				var id = dom.id.split('_')[1];
+				showPath(dom.id);
+				if(type=='program'){
+					$.getJSON('item?id='+id,function(data){
+						var tableStr = '<table class="table"><thead></thead><tbody>';
+						for(var i=0;i<data.length;i++){
+							tableStr += '<tr><td class="item" id="'+data[i].id+'">'+(i+1)+'、'+data[i].name+'</td></tr>';
+						}
+						tableStr += '</tbody></table>';
+						$('#tab').html(tableStr);
+					});
+				}else if(type == 'dept'){
+					showDept(id);
+				}else{
+					$.getJSON('itemAll?id='+id,function(data){
+						var tableStr = '<table class="table"><thead></thead><tbody>';
+						for(var i=0;i<data.length;i++){
+							tableStr += '<tr><td>'+(i+1)+'</td><td class="item" id="'+data[i].id+'">'+data[i].name+'</td></tr>';
+						}
+						tableStr += '</tbody></table>';
+						$('#tab').html(tableStr);
+					});
+				}
+			}
+			/**
+			* 鼠标划过就展开子菜单，免得需要点击才能展开
+			*/
+			$(document).on("click", ".path", function(){
+				var idStr = $(this).attr('id');
+				var type = idStr.split('_')[1];
+				if(type == 'home'){
+					window.location.href='../index_visit';
+				}else if(type == 'module'){
+					showProgram(idStr.split('_')[2]);
+				}else{
+					var id = idStr.split('_')[1]+'_'+idStr.split('_')[2]
+					showTab($('#'+id)[0]);
+				}
+			}).on("click", ".doc", function(){
+				var docId = $(this).attr('id');
+				window.open("showDoc?id="+docId); 
+			}).on("click", ".item", function(e){
+				var itemId = $(this).attr('id');
+				shwoDocPic(itemId);
+			}).on("click", ".program", function(e){
+				if($('#path').html().indexOf('员工风采')>-1 || $('#path').html().indexOf('企业年鉴')>-1)
+					showDept($(this).attr('id').split('_')[1]);
+				else
+					showTab(this);
+			}).on("click", "#toVisit", function(e){
+				window.location.href='../index_visit';
+			})
+			var docPicTab = '<div id="docPic" class="row">'+
+								'<div class="col-lg-2 col-sm-2">'+
+									'<ul class="nav nav-pills nav-stacked">'+
+									   '<li class="active"><a  href="#docTab" data-toggle="tab">文档</a></li>'+
+									   '<li><a  href="#picTab" data-toggle="tab">图片</a></li>'+
+									'</ul>'+
+								'</div>'+
+								'<div class="col-lg-10 col-sm-10">'+
+									'<div id="myTabContent" class="tab-content">'+
+									   '<div class="tab-pane fade in active" id="docTab">'+
+									   '</div>'+
+									   '<div class="tab-pane fade" id="picTab">'+
+									   '</div>'+
+									'</div>'+
+								'</div>'+
+							'</div>';
+			//点击表格响应事件
+			function shwoDocPic(itemId){
+				showPath('item_'+itemId);
+				$('#tab').html(docPicTab);
+				$.getJSON('getDocAndPic?id='+itemId,function(data){
+					var tableStr = '<table class="table"><thead></thead><tbody>';
+					var doc = data['doc'];
+					for(var i=0;i<doc.length;i++){
+						tableStr += '<tr><td class="doc" id="'+doc[i].id+'">'+(i+1)+'、'+doc[i].name+'</td><td class="col-lg-3">'+doc[i].update_time+'</td></tr>';
+					}
+					tableStr += '</tbody></table>';
+					if(doc.length == 0)
+						tableStr = '暂无文档可查阅';
+					$('#docTab').html(tableStr);
+					var pic = data['pic'];
+					var divPic = '<div class="row">';
+					for(var i=0;i<pic.length;i++){
+						divPic +='<div class="col-sm-6 col-md-3 col-lg-3">'+
+								    '<div class="thumbnail">'+
+								      '<img src="${rootPath}'+pic[i].url+'">'+
+								      '<div class="caption">'+
+								        '<h3>'+pic[i].desc+'</h3>'+
+								      '</div>'+
+								    '</div>'+
+								  '</div>';
+					}
+					divPic += '</div>';
+					if(pic.length == 0)
+						divPic = '暂无图片可查阅';
+					$('#picTab').append(divPic);
+				});
+			}
+			function search(key){
+				$('#path').html("<span id='path_home_0' class='path'>HOME</span>>>文档");
+				 $.getJSON('search?id='+key,function(doc){
+					 var tableStr = '<table class="table"><thead></thead><tbody>';
+					for(var i=0;i<doc.length;i++){
+						tableStr += '<tr><td class="doc" id="'+doc[i].id+'">'+(i+1)+'、'+doc[i].name+'</td><td class="col-lg-3">'+doc[i].update_time+'</td></tr>';
+					}
+					tableStr += '</tbody></table>';
+					if(doc.length == 0)
+						tableStr = '暂无文档可查阅';
+					$('#tab').html(tableStr);
+				 })
+			}
+		</script>
+	</head>
+	<body class="container"  onload="setHeight();" onresize=" setHeight()">
+		<div class="row head" style="height:100px;width:100%;">
+			<div class="col-md-8 col-sm-6 col-xm-6" style="align:center;height:100%;" id="toVisit">
+	<!-- 			<img src="../images/t1.png" style="height:95%;width:95%;"/> -->
+			</div>
+			<div class="col-md-4 col-sm-6 col-xm-6">
+				<div style="float: right;margin-top:5px;">
+					<#if session["user"]??>
+				    <a href="#" type="button" class="btn btn-success">
+				      <span class='glyphicon'>${session["user"]}</span>
+				    </a>
+					<a href="${rootPath}/login/logout" type="button" class="btn btn-danger">
+				      <span class='glyphicon glyphicon-log-out'>退出</span>
+				    </a>
+					</#if>
+				</div>
+				<div class="input-group" style="float: right;margin-top: 20px;">
+	               <input type="text" id="key" class="form-control" placeholder="根据关键字查询文档">
+	               <span class="input-group-btn">
+	                  <button class="btn btn-default" type="button" onclick="search($('#key').val())">搜索</button>
+	               </span>
+	            </div>
+			</div>
+		</div>
+		<div class="color-bar-1"></div>
+		<div class="color-bar-2"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<nav class="navbar navbar-default" role="navigation" style="background-image: url(../images/page-bg-1.jpg);">
+				   <div>
+				      <ul class="nav navbar-nav" id="menu">
+				         
+				      </ul>
+				   </div>
+				</nav>
+			</div>
+		</div>
+		<div style="margin-bottom: 10px;font-size:18px;">
+			<span id="path"></span>
+		</div>
+		<div class="tab-content">
+		   <div class="tab-pane fade in active" id="tab" style="border:solid 1px #5F9EA0;padding:20px;">
+		      
+		   </div>
+		</div>
+	</body>
+</html>
+

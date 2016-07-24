@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>"${name}"</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="../css/bootstrap.min.css" />
+<script type="text/javascript" src="../js/jquery-1.11.3.js" ></script>
+<script type="text/javascript" src="../js/bootstrap.min.js" ></script>
+<style>
+	body{
+		background-image: url(../images/page-bg-1.jpg);
+	}
+	#content{
+		font-size:20px;
+		font-family:"楷体";
+	}
+	pre {
+		white-space: pre-wrap;
+		word-wrap: break-word;
+	}
+	.head{
+		height:100px;
+		width:100%;
+		margin-left:0;
+		margin-bottom:10px;
+		background:url(../images/header.jpg) no-repeat;
+		background-color:white;
+	}
+	.color-bar-1, .color-bar-2 { width:100% }
+	.color-bar-1 { background:#F4A200; height:5px; }
+	.color-bar-2 { height:3px;background:#0099DC; }
+</style>
+<script>
+	$(function(){
+		$('#title').html("${name}");
+		 $.ajax({
+		  url: 'getText?id='+"${id}",
+		  success:function(data){
+			  $('#content').html(data);
+		  }
+		})
+	})
+	$(document).on("click", "#toVisit", function(e){
+		window.location.href='../index/index_visit';
+	})
+	function search(){
+		var key = $('#key').val();
+		window.open("../operate/main?id=search_"+key);
+	}
+</script>
+</head>
+<body class="container">
+<div class="row head" style="height:100px;width:100%;">
+	<div class="col-md-8 col-sm-6 col-xm-6" style="align:center;height:100%;" id="toVisit">
+	</div>
+	<div class="col-md-4 col-sm-6 col-xm-6">
+		<div style="float: right;margin-top:5px;">
+					<#if session["user"]??>
+				    <a href="#" type="button" class="btn btn-success">
+				      <span class='glyphicon'>${session["user"]}</span>
+				    </a>
+					<a href="${rootPath}/login/logout" type="button" class="btn btn-danger">
+				      <span class='glyphicon glyphicon-log-out'>退出</span>
+				    </a>
+					</#if>
+				</div>
+		<div class="input-group" style="float: right;margin-top: 20px;">
+              <input type="text" id="key" class="form-control" placeholder="根据关键字查询文档">
+              <span class="input-group-btn">
+                 <button class="btn btn-default" type="button" onclick="search($('#key').val())">搜索</button>
+              </span>
+           </div>
+	</div>
+</div>
+<div class="color-bar-1"></div>
+<div class="color-bar-2"></div>
+<div>
+	<h2 id="title" style="text-align:center;"></h2>
+	<pre id="content"></pre>
+</div>
+</body>
+</html>

@@ -1,67 +1,171 @@
 <!DOCTYPE html>
+<!-- saved from url=(0025)http://pku.dizena.com/ads -->
 <html>
-	<head>
-		<meta charset="utf-8" />
-		<title>齐鲁银行东环支行档案管理平台</title>
-		<link rel="stylesheet" href="${rootPath}/css/bootstrap.min.css" />
-		<link rel="stylesheet" href="${rootPath}/css/bootstrap-theme.min.css" />
-		<link rel="stylesheet" href="${rootPath}/css/admin.css" />
-		<link rel="stylesheet" href="${rootPath}/css/timeline.css" />
-		<link href="//cdn.bootcss.com/metisMenu/2.5.2/metisMenu.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="${rootPath}/css/font-awesome.min.css" />
-		<link rel="stylesheet" href="${rootPath}/css/morris.css" />
-		<style>
-			body{
-				padding: 0;
-				margin: 0;
-			}
-			table>thead>tr>th{
-				text-align:center;
-			}
-			table td {
-			  	white-space: nowrap;
-			  	overflow: hidden;
-			  	text-overflow: ellipsis;
-			}
-		</style>
-	</head>
-<body>
-	<div id="wrapper">
-       	<#include "common/_header.html">
-        <div id="page-wrapper">
-            <div class="row">
-            	<div class="col-lg-12" style="margin-top:10px;margin-bottom:-10px;">
-                	<ol class="breadcrumb">
-					  <li><i class="fa fa-home fa-fw"></i><a href="/index">Home</a></li>
-					</ol>
-            	</div>
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12" id="itemList">
-                    
-                </div>
-            </div>
-            <!-- item 详情 -->
-            <#include "common/_item_content.html">
-        </div>
-        <!-- /#page-wrapper -->
-    </div>
-</body>
-<script src="${rootPath}/js/jquery-1.11.3.js" ></script>
-<script src="${rootPath}/js/bootstrap.min.js" ></script>
-<script src="${rootPath}/js/admin.js" ></script>
-<script src="${rootPath}/js/common.js"></script>
-<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="//cdn.bootcss.com/metisMenu/2.5.2/metisMenu.min.js"></script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>index</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="http://pku.dizena.com/static/pku/images/favcion.png">
+<link href="${rootPath}/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/css/pkustyles.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/css/book.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/css/flexslider.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${rootPath}/js/jquery-1.11.3.js"></script>
+<script type="text/javascript" src="${rootPath}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${rootPath}/js/Atools.js"></script>
+<script type="text/javascript" src=${rootPath}/js/common.js></script>
+<script src="${rootPath}/js/jquery.flexslider.js"></script>
+<!--[if lt IE 9]>
+	<script type="text/javascript">
+		window.location.href="http://download.firefox.com.cn/releases/stub/official/zh-CN/Firefox-latest.exe";
+	</script>
+<![endif]-->
 <script type="text/javascript">
-	$(function(){
-		var initParams = {
-			module : "环境管理",
-			program : "室外环境维护",
-			itemId : 1011
-		}
-		qiluBank.operate.init(initParams);
+	function append0(s) {
+		if (Number(s) < 10) {
+			return "0" + s;
+		} else
+			return s;
+	}
+	function num2DateYMD(n) {
+		var date = new Date(n);
+		var y = date.getFullYear();
+		var m = date.getMonth() + 1;
+		var d = date.getDate();
+		return y + "年" + append0(m) + "月" + append0(d) + "日";
+	}
+
+	//加载活动
+	function loadActivity() {
+		$.post("/activ/getActivs",function(json) {
+			var html = '';
+			$.each(json,function(i, d) {
+				html += '<a href="/activ/viewActiv/'+d.id+'.html" target="_blank" class="list-group-item">'
+					+ d.atitle + '</a>';
+			});
+			//
+			$("#acvitityUL").html(html);
+		});
+	}
+
+	//englishAdsJson
+	function loadEnglishAdsJson() {
+		$.post("/getAdsByTypeJson",{"type" : "2"},function(json) {
+			var html = '';
+			$.each(json,function(i, d) {
+				html += '<a href="/adsview/'+d.id+'.html" target="_blank" class="list-group-item">'
+						+ d.title + '</a>';
+			});
+			//
+			$("#englishUL").html(html);
+		});
+	}
+	//
+	$(function() {
+		/* loadActivity();//
+		loadEnglishAdsJson();// */
+		$('.flexslider').flexslider();
 	});
 </script>
+<style type="text/css">
+@media screen and (max-width: 967px) {
+	.col-md-3 {
+		display: none;
+	}
+}
+</style>
+</head>
+<body>
+	<input type="hidden" value="${rootPath}" id="rootPath" />
+	<#include "common/header.html">
+	<!--main-->
+	<div class="container margin-bottom-30" id="main">
+		<div class="row margin-bottom-30">
+			<div class="col-md-9">
+				<div class="banner">
+					<div class="flexslider">
+						<ul class="slides">
+							<li style="width: 100%; float: left; margin-right: -100%; display: list-item;">
+								<img src="${rootPath}/images/b1.png" width="900px;" height="300px">
+							</li>
+							<li style="width: 100%; float: left; margin-right: -100%; display: none;">
+								<img src="${rootPath}/images/b2.png" width="900px;" height="300px">
+							</li>
+							<li style="width: 100%; float: left; margin-right: -100%; display: none;">
+								<img src="${rootPath}/images/b3.png" width="900px;" height="300px">
+							</li>
+						</ul>
+						<ol class="flex-control-nav">
+							<li><a class="active">1</a></li>
+							<li><a class="">2</a></li>
+							<li><a class="">3</a></li>
+						</ol>
+						<ul class="flex-direction-nav">
+							<li><a class="prev" href="#">Previous</a></li>
+							<li><a class="next" href="#">Next</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-3">
+				<img src="${rootPath}/images/apic1.png">
+				<div class="linhei"></div>
+				<img src="${rootPath}/images/apic2.png">
+			</div>
+		</div>
+		<div class="linhei"></div>
+		<div class="row">
+			<div class="col-md-4 col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="#" class="pull-right padtop">更多</a>
+						<h4>公告</h4>
+					</div>
+					<div class="panel-body">
+						<a href="#" target="_blank" class="list-group-item">恭喜以下同学6月25日毕业</a>
+						<a href="#" target="_blank" class="list-group-item">2016年论文报名须知</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4 col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="http://pku.dizena.com/getAdsByType?type=2"
+							class="pull-right padtop">更多</a>
+						<h4>学习</h4>
+					</div>
+					<div class="panel-body" id="englishUL">
+						<a href="#" target="_blank" class="list-group-item">2014级计算机网络课件</a>
+						<a href="#" target="_blank" class="list-group-item">2014级计算机体系结构课件</a>
+						<a href="#" target="_blank" class="list-group-item">2014级计算机网络课件</a>
+						<a href="#" target="_blank" class="list-group-item">2014级计算机体系结构课件</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-4 col-sm-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a href="http://pku.dizena.com/activ/acts"
+							class="pull-right padtop">更多</a>
+						<h4>活动</h4>
+					</div>
+					<div class="panel-body" id="acvitityUL">
+						<a href="#" target="_blank" class="list-group-item">【14级毕业典礼】节目报名</a>
+						<a href="#" target="_blank" class="list-group-item">【预计】最热的时候当然是玩水咯</a>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/row-->
+	</div>
+	<!--/main-->
+	<#include "common/footer.html">
+</body>
 </html>

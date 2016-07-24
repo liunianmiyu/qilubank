@@ -1,0 +1,296 @@
+/*
+--------------------------------------------*/
+/* 1. General
+--------------------------------------------*/
+/*头部通用 llj start--*/
+.pkulogo{width:254px;height:94px;margin-top:-20px; background-image:url('../images/qilu_logo.png');background-repeat: no-repeat;}
+.navtoggle{height:75px;}
+.togglebtn{margin-top:10px;}
+.navcontainer{min-width:315px;width:80%;}
+.navtop{background:#000;}
+.navtop > #info{padding-right: 10px;}
+.logo-nav{margin-top:-27px;display: block; position:fixed;}
+.nav-menu{padding-left: 280px;margin-top:15px;}
+.navbar-nav > li > a{color: #9D9D9D;font-weight: bold;font-size: 14px;}
+.top-nav{height: 110px; background: #000; display: block;}
+.top-container{padding：20px;margin-top: 20px;}
+#info{font-size: 14px;}
+.menulist{margin-top:0px;}
+
+/*头部通用 llj end--*/
+/*底部通用 start --*/
+.footrow{position: fixed;bottom: 0px; width: 100%;bottom: 0px;padding: 0 auto; margin: 0 auto;}
+.footrow div a{color:#9D9D9D;}
+/*底部通用 end--*/
+
+body{overflow-x:hidden;overflow-y:auto;}
+*, body { font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;}
+h1 {
+	font-weight: 300;
+	font-size: 36px;
+	line-height: normal;
+	margin: auto;
+	margin-top: 30px;
+	text-align: center;
+}
+h2 {
+	font-weight: 500;
+	font-size: 20px;
+	line-height: normal;
+	margin: auto;
+	margin-bottom: 30px;
+	text-align: center;
+	color: #09F;
+}
+
+.green { color: #3C3; }
+.gray { color: #999; }
+
+.form-horizontal .control-label { padding-top: 0; }
+.form-horizontal.pku-payment-form .radio.pku-no-padding-top {	padding-top: 0; }
+.control-wrapper {
+	position: relative;
+	padding-left: 30px;
+}
+.control-wrapper label.fa-label {
+	position: absolute;
+	left: 4px;
+	top: 6px;
+}
+.form-group:last-child { margin-bottom: 0; }
+.form-horizontal .control-label { margin-bottom: 10px; }
+.table { margin-bottom: 0; }
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th,
+.table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
+	vertical-align: middle;
+}
+.pku-form-list-container { max-width: 600px; }
+.pku-input-icon-container { position: relative; }
+.pku-input-icon-container .fa {
+	color: gray;
+	position: absolute;
+	left: 10px;
+	top: 10px;
+}
+.pku-input-icon-container input,
+.pku-input-icon-container textarea {
+	padding-left: 30px;
+}
+.pku-container {
+	background-color: rgba(255,255,255,0.8);
+	*background:#fff;
+	_background:#fff;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+	border: 1px solid #dedede;
+	margin: 0 auto;
+	padding: 30px;
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	box-shadow:0 0 2px 1px #e4e4e4;
+
+}
+.pku-bg-gray { background-color: #eee; }
+.pku-bg-gray h1 { color: rgb(74, 164, 180); }
+
+.font-size-small { font-size: 0.8em; }
+.margin-bottom-15 {	margin-bottom: 15px; }
+.margin-bottom-30 {	margin-bottom: 30px; }
+.form-group { margin-bottom: 20px; }
+.form-group a {	line-height: 34px; }
+.fa { font-size: 16px; }
+.fa.login-with {
+	font-size: 30px;
+	margin: 0 5px;
+}
+.fa-medium { font-size: 20px; }
+.inline-block { display: inline-block; }
+
+
+/*-------------------------------------
+2. login-form-1
+---------------------------------------*/
+.pku-login-form-1 { max-width: 500px; }
+.pku-login-form-1 a { color: gray; }
+.pku-login-form-1 a:hover {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+.pku-create-new {
+	color: #58B4BB;
+	font-size: 18px;
+	font-weight: 300;
+}
+.pku-create-new:hover {
+	color: #138892;
+	text-decoration: none;
+}
+
+
+
+
+/*-------------------------------------
+3. forgot-password
+---------------------------------------*/
+.pku-forgot-password-form {
+	background-color: #fff;
+	max-width: 550px;
+	margin: 0 auto;
+	padding: 30px;
+}
+
+
+
+/*-------------------------------------
+4. Media Queries
+---------------------------------------*/
+@media screen and (max-width: 767px) {
+	.pku-header .col-md-12 {	line-height: 20px; }
+	.pku-header .btn { margin-bottom: 15px; }
+	.pku-container {	padding: 15px; }
+	.control-wrapper label.fa-label { top: 6px;	}
+	.pku-header form { margin-top: 0; }
+	.advice_div{display: none;}
+}
+@media screen and (max-width: 991px) {
+
+	.pku-create-account .col-md-6, .pku-create-account .col-md-12 {
+		padding-top: 5px;
+		padding-bottom: 15px;
+	}
+
+	.pku-radio-group { margin-top: 0; }
+	.pku-radio-container { margin-left: 30px; }
+}
+
+
+/*-------------------------------------
+5.top  && buttom
+---------------------------------------*/
+#top{width:100%;
+	height:101px;
+	background:#000;
+	color:#FFF;
+}
+#nav > td > a {
+	color: #9d9d9d;
+	font-weight: bold;
+	font-size:14px;
+
+}
+#nav > td > a:hover, #nav > td > a:focus {
+	background-color: transparent;
+	color: #fff;
+	text-decoration: none;
+	cursor:pointer;
+}
+
+#buttom{
+	background: none repeat scroll 0 0 #000;
+	height:100px !important;
+	color:#9d9d9d;
+	padding-top:40px;
+	font-size:12px;
+}
+
+/*-------------------------------------
+   公告页面的登陆按钮 lj
+   ---------------------------------------*/
+
+   .login-btn-notice .btn{
+   	display:block;
+   	width:78px;
+   	height:31px;
+   	padding:5px;
+   	background:#f6963f;
+   	border:1px solid #000;
+   	line-height:20px;
+   	color: #653B01;
+   	font-size: 16px;
+   	font-family: '微软雅黑';
+   	border-radius:7px;
+   	margin-top:-5px;
+   }
+
+   .login-btn-notice .btn:hover{
+   	color: white;
+   	background:#f6963e
+   }
+
+   .notice-main{
+   	width: 90%;
+   	min-height: 600px;
+   	height: 100%;
+   	margin: 0 auto;
+   }
+
+
+   .notice-list{
+   	width: 80%;margin: 0 auto;
+   }
+
+   .noticeli{min-height: 49px;padding-top: 13px;}
+   .noticeli a{
+   	text-decoration: none;
+   	color: #333;
+   }
+   .noticeli a:hover{
+   	text-decoration: none;
+   	color: #5c5a56;
+   	font-weight: bold;
+   }
+   .item-date{
+   	float: right;margin-top:-5px;
+   }
+
+   .list-group-item{
+   	border:0px;
+   	font-family: '微软雅黑';
+   }
+   .list-group-item a{
+   	text-decoration: none;
+   	color: #333;
+   }
+   .list-group-item a:hover{
+   	color: #5c5a56;
+   	font-weight: bold;
+   }
+   .list-group-item .item-date{
+   	float:right;
+
+   }
+
+   .notice-main ul>li{
+   	border-top:1px solid #ddd;
+   }
+   .notice-main .page-notice{
+   	text-align: right;
+   }
+   .page-notice .pagination{
+   	background: #fff;
+   	margin: 25px 0px;
+   }
+   .pagination > li > a{
+   	background-color: #000;
+   	color: #fff;
+   	border: 0px;
+   	margin:1px;
+   }
+   .pagination > li:first-child > a{
+   	background-color: #fff;
+   	color: #000;
+   	cursor:default;
+   }
+   .pagination .next{
+   	background: #fff;
+   	color: #000;
+   	width: 25px;
+   	text-align: center;
+   	padding-left: 5px;
+   }
+
+   .pagination > li:first-child > a:active,a:hover{
+   	color: white;
+   	margin:1px;
+   }

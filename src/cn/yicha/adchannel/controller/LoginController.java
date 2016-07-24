@@ -20,7 +20,7 @@ public class LoginController extends Controller {
 	 */
 	@Clear
 	public void index() {
-		render("/html/login.html");
+		render("/admin/login.html");
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class LoginController extends Controller {
 				getSession().setMaxInactiveInterval(30 * 60);
 				setSessionAttr("user", userName);
 				setCookie("role", String.valueOf(role), -1);
-				renderJson(user);
+				renderText(String.valueOf(role));
 			}
 		} else {
 			renderText("fail");

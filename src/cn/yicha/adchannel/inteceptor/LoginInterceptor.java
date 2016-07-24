@@ -21,7 +21,7 @@ public class LoginInterceptor implements Interceptor {
 		String userName = (String) session.getAttribute("user");
 		
 		if(userName == null || "".equals(userName)){
-			controller.redirect("/");
+			controller.redirect("/login");
 		}else{
 			inv.invoke();
 		}

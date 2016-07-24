@@ -163,6 +163,10 @@ public class OperateService {
 		return operateDao.selectDoc(key);
 	}
 
+	public List<Picture> searchPicture(String key) {
+		return operateDao.searchPic(key);
+	}
+	
 	public List<Document> selectDocAll(){
 		return operateDao.selectDocAll();
 	}

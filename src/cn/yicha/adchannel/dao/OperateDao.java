@@ -63,7 +63,7 @@ public class OperateDao {
 	 * @return
 	 */
 	public List<Document> selectDocByItemId(Integer id) {
-		return Document.dao.find("select * from document where item_id=" + id);
+		return Document.dao.find("select * from document where item_id=" + id + " order by update_time desc");
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class OperateDao {
 	 * @return
 	 */
 	public List<Picture> selectPicByItemId(Integer id) {
-		return Picture.dao.find("select * from picture where item_id=" + id);
+		return Picture.dao.find("select * from picture where item_id=" + id + " order by update_time desc");
 	}
 
 	/**
@@ -133,9 +133,12 @@ public class OperateDao {
 	 * @return
 	 */
 	public List<Document> selectDoc(String key) {
-		return Document.dao.find("select * from document where content like '%" + key + "%' or name like '%"+key+"%'");
+		return Document.dao.find("select * from document where content like '%" + key + "%' or name like '%"+key+"%' order by update_time desc");
 	}
 
+	public List<Picture> searchPic(String key) {
+		return Picture.dao.find("select * from picture where content like '%" + key + "%' or name like '%"+key+"%' order by update_time desc");
+	}
 	/**
 	 * 根据文档id删除document表中文档内容记录
 	 * 
@@ -177,10 +180,10 @@ public class OperateDao {
 	}
 
 	public List<Document> selectDocAll() {
-		return Document.dao.find("select * from document");
+		return Document.dao.find("select * from document order by update_time desc");
 	}
 
 	public List<Program> getProgramAll() {
-		return Program.dao.find("select * from program");
+		return Program.dao.find("select * from program order by update_time desc");
 	}
 }

@@ -26,7 +26,7 @@ import com.jfinal.upload.UploadFile;
 public class UploadController extends Controller {
 
 	public void upload() {
-		String path = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+		String path = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 		UploadFile file = getFile("file", PathKit.getWebRootPath() + "/temp");
 		File source = file.getFile();
 		String fileName = file.getFileName();

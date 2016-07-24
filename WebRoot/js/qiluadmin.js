@@ -46,10 +46,10 @@ var qiluAdmin = {
     					$("#loginDialog .modal-body").text("用户名或密码不正确，请重新登录!");
     					$("#loginDialog").modal('toggle');
                     }else {
-                    	if(data == "1"){
-                    		window.location.href = qiluAdmin.rootPath + "/admin";
-                    	}else{
+                    	if(data == "0"){
                     		window.location.href = qiluAdmin.rootPath + "/";
+                    	}else{
+                    		window.location.href = qiluAdmin.rootPath + "/admin";
                     	}
                     }
                 });
@@ -209,8 +209,9 @@ var qiluAdmin = {
 				           "<td>" + item.name + "</td>" +
 				           "<td>-</td>" +
 				           "<td>"+item.create_time+"</td>" +
+				           "<td>"+item.update_time+"</td>" +
 				           "<td>"+item.operate_user+"</td>" +
-				           "<td><a href='"+qiluAdmin.rootPath+"/operate/showDoc?id="+item.id+"' class='btn btn-success' target='_blank'>详情</a></td>" +
+				           "<td><a href='"+qiluAdmin.rootPath+"/operate/showDoc?id="+item.id+"' class='btn btn-success' target='_blank'>查看详情</a></td>" +
 				           "<td><a href='"+qiluAdmin.rootPath+"/admin/toEditDoc?itemId="+item.item_id+"&docId="+item.id+"' class='btn btn-warning'>编辑</a></td>" +
 				           "<td><button class='btn btn-danger deldoc' doc-id='"+item.id+"'>删除</button></td>" +
 				           "</tr>";
@@ -223,12 +224,13 @@ var qiluAdmin = {
     		//http://127.0.0.1:8080/qilubank/operate/main?id=module_101
 			$(data).each(function(index, item) {
 				picsStr += "<tr>"+
-				           "<td>图片</td>" +
+				           "<td style='color:red;'>图片</td>" +
 				           "<td>"+item.name+"</td>" +
 				           "<td>"+item.url+"</td>"+
 				           "<td>"+item.create_time+"</td>" +
+				           "<td>"+item.update_time+"</td>" +
 				           "<td>"+item.operate_user+"</td>" +
-				           "<td><a href='javascript:;' disabled='true' class='btn btn-success'>详情</a></td>" +
+				           "<td><a href='"+qiluAdmin.rootPath+""+item.url+"' class='btn btn-success' targer='_blank'>查看大图</a></td>" +
 				           "<td><a href='"+qiluAdmin.rootPath+"/admin/toEditPic?itemId="+item.item_id+"&picId="+item.id+"' class='btn btn-warning'>编辑</a></td>" +
 				           "<td><button class='btn btn-danger delpic' pic-id='"+item.id+"' >删除</button></td>" +
 				           "</tr>";

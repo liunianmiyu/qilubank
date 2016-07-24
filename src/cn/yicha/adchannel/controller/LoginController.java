@@ -30,7 +30,7 @@ public class LoginController extends Controller {
 	public void loginValidate() {
 		String userName = getPara("username");
 		String password = getPara("userpass");
-		int role = getParaToInt("role");
+		int role = getParaToInt("role", 0);
 		User user = loginService.loginValidate(userName, password);
 		if (user != null) {
 			if(user.getInt("role") < role){ //权限不足
@@ -39,7 +39,7 @@ public class LoginController extends Controller {
 				// 设置session过期时间为半小时
 				getSession().setMaxInactiveInterval(30 * 60);
 				setSessionAttr("user", userName);
-				setCookie("role", String.valueOf(role), -1);
+				setSessionAttr("role", user.getInt("role"));
 				renderText(String.valueOf(role));
 			}
 		} else {

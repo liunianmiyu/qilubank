@@ -62,6 +62,8 @@
 				text-overflow:ellipsis;overflow:hidden;
 				font-family:'楷体';
 				font-size:20px;
+				padding-left:0px;
+				padding-right:0px;
  			}
 			.con a:hover{
 				position:relative;
@@ -113,16 +115,16 @@
 			});
 			$(document).on("click", ".list-group-item", function(){
 				var id = $(this).attr('id');
-				window.open("${rootPath}/operate/main?id="+id); 
+				window.location.href = "${rootPath}/operate/main?id="+id; 
 			}).on("click", "marquee p", function(e){
 				var id = $(this).attr('id');
-				window.open("${rootPath}/operate/showDoc?id="+id.split('_')[1]); 
+				window.location.href = "${rootPath}/operate/showDoc?id="+id.split('_')[1]; 
 			}).on("mouseover", "marquee p", function(e){
 				$('#marquee').stop();
 			});
 			function search(){
 				var key = $('#key').val();
-				window.open("${rootPath}/operate/main?id=search_"+key);
+				window.location.href ="${rootPath}/operate/main?id=search_"+key;
 			}
 		</script>
 	</head>
@@ -204,7 +206,7 @@
 			<div class="col-md-2 col-sm-3">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<a class="pull-right padtop" onclick="window.open('${rootPath}/operate/main?id=module_0')">更多</a>
+						<a class="pull-right padtop" onclick="window.location.href='${rootPath}/operate/main?id=module_0'">更多</a>
 						<h4 style="text-align:center;">服务档案</h4>
 					</div>
 					<div class="panel-body">
@@ -242,7 +244,10 @@
 				</div>
 			</div>
 			<div class="col-md-5 col-sm-3" style="height:280px;">
-				<embed src="http://player.youku.com/player.php/sid/XMTMwMTQ5NDEwMA==/v.swf" flashvars="isAutoPlay=true" autostart=true allowFullScreen="true" quality="high" width="100%" height="100%" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>
+	<!--  			<embed src="http://player.youku.com/player.php/sid/XMTMwMTQ5NDEwMA==/v.swf" flashvars="isAutoPlay=true" autostart=true allowFullScreen="true" quality="high" width="100%" height="100%" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed>-->
+				<video width="100%" height="100%" controls>
+				  <source src="${rootPath}/images/齐鲁银行东环支行五星级网点_高清.mp4" type="video/mp4">
+				</video> 
 			</div>
 		</div>
 	</body>

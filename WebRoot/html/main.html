@@ -260,6 +260,24 @@
 					$('#tab').html(tableStr);
 				 })
 			}
+			//返回上一级
+			function back(){
+				var hisArr = [];
+				var ind = 0;
+				$('.path').each(function(){
+					hisArr[ind++] = $(this).attr('id');
+				});
+				var idStr = hisArr[hisArr.length-1];
+				var type = idStr.split('_')[1];
+				if(type == 'home'){
+					window.location.href='../index_visit';
+				}else if(type == 'module'){
+					showProgram(idStr.split('_')[2]);
+				}else{
+					var id = idStr.split('_')[1]+'_'+idStr.split('_')[2]
+					showTab($('#'+id)[0]);
+				}
+			}
 		</script>
 	</head>
 	<body class="container"  onload="setHeight();" onresize=" setHeight()">
@@ -305,6 +323,12 @@
 		<div class="tab-content">
 		   <div class="tab-pane fade in active" id="tab" style="border:solid 1px #5F9EA0;padding:20px;">
 		      
+		   </div>
+		   <div>
+		   		<span style="float:right;">
+		   			<Button type="button" class="btn btn-info" onclick="back()">返回上一级</Button>
+		   			<Button type="button" class="btn btn-info" onclick="window.location.href='../index_visit'">返回首页</Button>
+		   		</span>
 		   </div>
 		</div>
 	</body>

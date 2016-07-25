@@ -82,7 +82,7 @@
 		 })
 	})
 	$(document).on("click", "#toVisit", function(e){
-		window.location.href='../index/index_visit';
+		window.location.href='../index_visit';
 	})
 	var i = 0; 
     var sCurText; 
@@ -111,7 +111,7 @@
              } 
         } 
         //高亮显示 
-        $('p').each(function(){ 
+        $('#content').each(function(){ 
             var html = $(this).html(); 
             //将找到的关键字替换，加上highlight属性； 
             var newHtml = html.replace(regExp, '<span class="highlight">'+searchText+'</span>'); 
@@ -141,7 +141,7 @@
         } 
     }
     function clearSelection(){ 
-        $('p').each(function(){ 
+        $('#content').each(function(){ 
             //找到所有highlight属性的元素； 
             $(this).find('.highlight').each(function(){ 
                 $(this).replaceWith($(this).html());//将他们的属性去掉； 
@@ -168,7 +168,7 @@
 		<div class="input-group" style="float: right;margin-top: 20px;positive:relation" id="searchDiv">
               <input type="text" id="searchstr" class="form-control" placeholder="根据关键字查询文档">
               <span class="input-group-btn">
-                 <button class="btn btn-default" type="button" id="search_btn">搜索</button>
+                 <button class="btn btn-primary" type="button" id="search_btn">搜索</button>
               </span>
            </div>
 	</div>
@@ -178,6 +178,11 @@
 <div>
 	<h2 id="title" style="text-align:center;"></h2>
 	<pre id="content"></pre>
+</div>
+<div style="text-align:center;">
+	<span style="width:100%;">
+		<Button type="button" style="text-align:center;" class="btn btn-info" onclick="window.history.back();">返回上一页</Button>
+	</span>
 </div>
 </body>
 </html>

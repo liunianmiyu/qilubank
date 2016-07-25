@@ -12,7 +12,7 @@
 				background-image: url(../images/page-bg-1.jpg);
 			}
 			.container{
-				width:72%;
+
 			}
 			.head{
 				height:100px;
@@ -34,7 +34,7 @@
 			.nav > li > a{
 				padding-right:5px;
 			}
-			.program:hover,.item:hover,.path:hover,.doc:hover{
+			.program:hover,.item:hover,.path:hover,.doc:hover,.dropdown-toggle:hover{
 				position:relative;
 				top:1px;
 				left:1px;
@@ -66,28 +66,47 @@
  
            }
 			$(document).ready(function(){
+				//$(document).off('click.bs.dropdown.data-api');//鼠标滑过时显示下拉菜单
 				if($(window).width()<1300){
 					$('.container').css('width','90%');
 				}
 				$.getJSON('menu',function(data){
 					var htmlStr = "";
-	    			$(data).each(function(index,item){
-	    				var moduleName = item.moduleName;
-	    				if(moduleName.length>8)
-	    					moduleName = moduleName.substr(0,8)+"...";
-	    				htmlStr +=  '<li class="dropdown">'+
-							         	'<a class="dropdown-toggle" style="color:rgb(102, 24, 24);" data-toggle="dropdown" href="" id="module_'+item.moduleId+'">'+moduleName+'<b class="caret"></b></a>'+
+	    			var size = parseInt(data.length/2)+(data.length%2==0?0:1);
+	    			var i=0;
+	    			var width = 100/size;
+	    			for(i = 0;i<size;i++){
+	    				htmlStr +=  '<li class="dropdown" style="width:'+width+'%;">'+
+							         	'<a class="dropdown-toggle" data-toggle="dropdown" id="module_'+data[i].moduleId+'">'+(data[i].moduleName.length>7?data[i].moduleName.substr(0,7)+"...":data[i].moduleName)+'<b class="caret"></b></a>'+
 							         	'<ul class="dropdown-menu">';
-						for(var i = 0;i<item.programs.length;i++){
-							if(moduleName=='员工风采' || moduleName == '企业年鉴')
-								htmlStr +=  '<li><a href="#tab" data-toggle="tab" id="dept_'+item.programs[i].id+'" onclick="showTab(this)">'+item.programs[i].name+'</a></li>';
+						var programs = data[i].programs;
+						for(var j = 0;j<programs.length;j++){
+							if(data[i].moduleName=='员工风采' || data[i].moduleName == '企业年鉴')
+								htmlStr +=  '<li><a href="#tab" data-toggle="tab" id="dept_'+programs[j].id+'" onclick="showTab(this)">'+programs[j].name+'</a></li>';
 							else
-								htmlStr +=  '<li><a href="#tab" data-toggle="tab" id="program_'+item.programs[i].id+'" onclick="showTab(this)">'+item.programs[i].name+'</a></li>';
+								htmlStr +=  '<li><a href="#tab" data-toggle="tab" id="program_'+programs[j].id+'" onclick="showTab(this)">'+programs[j].name+'</a></li>';
 						}
 						htmlStr +=  	 '</ul>'+
 							         '</li>';
-	    			});
+	    			}
 	    			$("#menu").html(htmlStr);
+	    			htmlStr = "";
+	    			for(i;i<data.length;i++){
+	    				htmlStr +=  '<li class="dropdown" style="width:'+width+'%;">'+
+							         	'<a class="dropdown-toggle" data-toggle="dropdown" id="module_'+data[i].moduleId+'" >'+(data[i].moduleName.length>7?data[i].moduleName.substr(0,7)+"...":data[i].moduleName)+'<b class="caret"></b></a>'+
+							         	'<ul class="dropdown-menu">';
+						var programs = data[i].programs;
+						for(var j = 0;j<programs.length;j++){
+							if(data[i].moduleName=='员工风采' || data[i].moduleName == '企业年鉴')
+								htmlStr +=  '<li><a href="#tab" data-toggle="tab" id="dept_'+programs[j].id+'" onclick="showTab(this)">'+programs[j].name+'</a></li>';
+							else
+								htmlStr +=  '<li><a href="#tab" data-toggle="tab" id="program_'+programs[j].id+'" onclick="showTab(this)">'+programs[j].name+'</a></li>';
+						}
+						htmlStr +=  	 '</ul>'+
+							         '</li>';
+	    			}
+	    			$("#menu2").html(htmlStr);
+					
 	    			var param="${id}";
     				var type = param.split('_')[0];
 	    			var id = param.split('_')[1];
@@ -96,7 +115,12 @@
 					else if(type == 'search'){
 						 search(id);
 					}else if(type == 'module'){
-						showProgram(id);
+						if(parseInt(id) == 0){
+							var titleStr = '<h1 style="text-align:center;color:#E5440E;">齐鲁银行东环支行</h1><h1 style="text-align:center;color:#E5440E;">欢迎您进入服务档案平台</h1>';
+							$('#tab').html(titleStr);
+						}else{
+							showProgram(id);
+						}
 					}else if(type == 'dept'){
 						showDept(id);
 					}else{
@@ -119,14 +143,15 @@
 			function showDept(id){
 				showPath("program_"+id);
 				$.getJSON('pic?id='+id,function(data){
-					var divPic = '<div class="row">';
+					var divPic = '<div class="row"> ';
 					for(var i=0;i<data.length;i++){
-						divPic +='<div class="col-sm-6 col-md-3 col-lg-3">'+
+						divPic +='<div class="col-md-4 col-sm-6" style="height:350px;">'+
 								    '<div class="thumbnail">'+
-									    '<div class="caption">'+
-									        '<h3>'+data[i].desc+'</h3>'+
+									    '<div class="caption" style="display:block;height:100px;overflow:hidden">'+
+									        '<h3>'+data[i].name+'</h3>'+
+									        '<p>'+data[i].desc+'</p>'+
 									      '</div>'+
-								      '<img src="${rootPath}'+data[i].url+'">'+
+								      '<img style="width:300px;height:200px;" src="${rootPath}'+data[i].url+'">'+
 								    '</div>'+
 								  '</div>';
 					}
@@ -171,9 +196,6 @@
 					});
 				}
 			}
-			/**
-			* 鼠标划过就展开子菜单，免得需要点击才能展开
-			*/
 			$(document).on("click", ".path", function(){
 				var idStr = $(this).attr('id');
 				var type = idStr.split('_')[1];
@@ -187,7 +209,7 @@
 				}
 			}).on("click", ".doc", function(){
 				var docId = $(this).attr('id');
-				window.open("showDoc?id="+docId); 
+				window.location.href = "showDoc?id="+docId; 
 			}).on("click", ".item", function(e){
 				var itemId = $(this).attr('id');
 				shwoDocPic(itemId);
@@ -198,7 +220,15 @@
 					showTab(this);
 			}).on("click", "#toVisit", function(e){
 				window.location.href='../index_visit';
-			})
+			}).on("mouseover", ".dropdown", function(){
+				$(this).addClass('open');					//鼠标划过就展开子菜单，免得需要点击才能展开
+			}).on("mouseout", ".dropdown", function(){
+				$(this).removeClass('open');
+			}).on("click", ".dropdown-menu li", function(){
+				$(this).removeClass('active');
+				$("#menu .dropdown").removeClass('active');
+				$("#menu2 .dropdown").removeClass('active');
+			});
 			var docPicTab = '<div id="docPic" class="row">'+
 								'<div class="col-lg-2 col-sm-2">'+
 									'<ul class="nav nav-pills nav-stacked">'+
@@ -230,14 +260,15 @@
 						tableStr = '暂无文档可查阅';
 					$('#docTab').html(tableStr);
 					var pic = data['pic'];
-					var divPic = '<div class="row">';
+					var divPic = '<div class="row"> ';
 					for(var i=0;i<pic.length;i++){
-						divPic +='<div class="col-sm-6 col-md-3 col-lg-3">'+
+						divPic +='<div class="col-md-4 col-sm-6" style="height:350px;">'+
 								    '<div class="thumbnail">'+
-									    '<div class="caption">'+
-									        '<h3>'+pic[i].desc+'</h3>'+
+									    '<div class="caption" style="display:block;height:100px;overflow:hidden">'+
+									        '<h3>'+pic[i].name+'</h3>'+
+									        '<p>'+pic[i].desc+'</p>'+
 									      '</div>'+
-								      '<img src="${rootPath}'+pic[i].url+'">'+
+								      '<img style="width:300px;height:200px;" src="${rootPath}'+pic[i].url+'">'+
 								    '</div>'+
 								  '</div>';
 					}
@@ -299,7 +330,7 @@
 				<div class="input-group" style="float: right;margin-top: 20px;">
 	               <input type="text" id="key" class="form-control" placeholder="根据关键字查询文档">
 	               <span class="input-group-btn">
-	                  <button class="btn btn-default" type="button" onclick="search($('#key').val())">搜索</button>
+	                  <button class="btn btn-primary" type="button" onclick="search($('#key').val())">搜索</button>
 	               </span>
 	            </div>
 			</div>
@@ -310,7 +341,10 @@
 			<div class="col-lg-12">
 				<nav class="navbar navbar-default" role="navigation" style="background-image: url(../images/page-bg-1.jpg);">
 				   <div>
-				      <ul class="nav navbar-nav" id="menu">
+				      <ul class="nav navbar-nav" id="menu" style="width:100%;">
+				         
+				      </ul>
+				      <ul class="nav navbar-nav" id="menu2" style="width:100%;">
 				         
 				      </ul>
 				   </div>

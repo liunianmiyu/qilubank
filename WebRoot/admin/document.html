@@ -42,7 +42,7 @@
             <!-- /.row -->
             <div class="row" style="margin-top:15px;">
             	<div class="panel panel-warning">
-				  <div class="panel-heading">${module.name}>>>${program.name}>>>${item.name[0..30]}</div>
+				  <div class="panel-heading">${module.name}>>>${program.name}>>>${item.name}</div>
 				  <div class="panel-body">
 				    <form id="editDocForm" action="editDoc" method="post">
 				    <#if doc ??>
@@ -102,9 +102,9 @@
 $(function(){
 	//初始化UMEditor
 	var um = UM.getEditor('myEditor',{
-		imageUrl:"${rootPath}/post/upload.shtml",     //图片上传提交地址
-        imagePath:"${rootPath}/post/" ,            //图片修正地址，引用了fixedImagePath,如有特殊需求，可自行配置
-        imageFieldName:"upfile"   
+		imageUrl:UEDITOR_HOME_URL + "jsp/imageUp.jsp",     //图片上传提交地址
+		imagePath:"${rootPath}/qilubank" , 
+        imageFieldName:"file"   
 	});
 	function hasContent() {
 		return UM.getEditor('myEditor').hasContents();

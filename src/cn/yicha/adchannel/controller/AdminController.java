@@ -34,7 +34,15 @@ public class AdminController extends Controller {
 		} else {
 			setAttr("moduleId", getPara("moduleId", ""));
 			setAttr("programId", getPara("programId", ""));
-			setAttr("itemId", getPara("itemId", ""));
+			int itemId = getParaToInt("itemId", 0);
+			if(itemId >= 201 && itemId <= 208){
+				itemId = getParaToInt("programId");
+			}
+			if(itemId == 0) {
+				setAttr("itemId", "");
+			}else{
+				setAttr("itemId", String.valueOf(itemId));
+			}
 			render("/admin/index.html");
 		}
 	}
@@ -185,7 +193,7 @@ public class AdminController extends Controller {
 					.set("operate_user", user).set("create_time", new Date()).set("update_time", new Date()).save();
 		} else {
 			result = operateService.selectPictureById(picId).set("name", title).set("desc", desc).set("url", url)
-					.set("operate_time", user).set("update_time", new Date()).update();
+					.set("operate_user", user).set("update_time", new Date()).update();
 		}
 		if (result) {
 			redirect("/admin/index?moduleId=" + module.getInt("id") + "&programId=" + program.getInt("id") + "&itemId="

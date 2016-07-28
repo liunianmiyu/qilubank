@@ -175,9 +175,12 @@
 </div>
 <div class="color-bar-1"></div>
 <div class="color-bar-2"></div>
-<div>
+<div style="width:100%;display: inline;float:left;">
 	<h2 id="title" style="text-align:center;"></h2>
 	<pre id="content"></pre>
+</div>
+<div id="back-up" class="cd-fade-out" onclick="goToWhere(0)" onmouseover="$('#backtop').css('visibility','visible');" onmouseout="$('#backtop').css('visibility','hidden')";>
+	<span id="backtop" style="visibility: hidden;font-weight: bold;color:red;">返回顶部</span>
 </div>
 <div style="text-align:center;">
 	<span style="width:100%;">
@@ -185,4 +188,62 @@
 	</span>
 </div>
 </body>
+<style>
+		#back-up{
+			font-size: 18px;
+			font-family: '楷体';
+			text-align:center;
+			margin-left:5px;
+			background-image:url(../images/retop.jpg);
+			background-size:100% 100%;
+			float:left;
+			height: 50px; 
+			width: 50px; 
+			position: fixed; 
+			cursor: pointer; 
+			bottom: 5px;
+		}
+		#back-up:hover{
+			background-color: greenyellow;
+			filter:alpha(opacity=50);  /* ie 有效*/
+			-moz-opacity:0.5; /* Firefox  有效*/
+			opacity: 0.5; /* 通用，其他浏览器  有效*/
+		}
+		.cd-is-visible {
+		  display: inline;
+		}
+		.cd-fade-out {
+		  display: none;
+		}
+		</style>
+<script type="text/javascript">
+    function goToWhere(where){
+        var me = this;
+        clearInterval (me.interval);
+        me.site = [];
+        var dom = !/.*chrome.*/i.test (navigator.userAgent) ? document.documentElement : document.body;
+        var height = !!where ? dom.scrollHeight : 0;
+        me.interval = setInterval (function (){
+            var speed = (height - dom.scrollTop) / 16;
+            if (speed == me.site[0]){
+                clearInterval (me.interval);
+                return null;
+            }
+            dom.scrollTop += speed;
+            me.site.unshift (speed);
+        }, 16);
+    };
+   $(document).ready(function(){
+		 $(window).scroll(function(event){
+			if($("#back-up").offset().top > 300){ 
+				$('#back-up').removeClass('cd-fade-out');
+				$('#back-up').addClass('cd-is-visible');
+			}
+			if($("#back-up").offset().top<$(window).height()){
+				$('#back-up').removeClass('cd-is-visible');
+				$('#back-up').addClass('cd-fade-out');
+			}
+		});
+    });
+</script>
 </html>

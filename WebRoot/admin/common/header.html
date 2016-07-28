@@ -5,14 +5,14 @@
 			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="/admin" style="font-size: 25px;"> 齐鲁银行东环支行档案管理平台 </a>
+		<a class="navbar-brand" href="${rootPath}/admin" style="font-size: 25px; color:#fff;"> 齐鲁银行东环支行档案管理平台 </a>
 	</div>
 	<!-- /.navbar-header -->
 	<ul class="nav navbar-top-links navbar-right" style="height: 50px; background-color:#f58016;background-image: -webkit-linear-gradient(top,#f58016 0,#e4a974 100%);">
 		<li class="light-blue">
 			<a data-toggle="dropdown" href="#" class="dropdown-toggle" style="height: 50px;"> 
-			    <img class="nav-user-photo" src="${rootPath}/images/user.jpg" style="margin-top: -8px; border-radius: 50%;" />
-				<span class="user-info"> <small>Welcome,</small>${session["user"]}</span> 
+			    <img class="nav-user-photo" src="${rootPath}/images/small_logo.png" style="margin-top: -8px; border-radius: 50%; width:40px; height:40px;" />
+				<span class="user-info"> <small>欢迎,</small>${session["user"]}</span> 
 				<i class="ace-icon fa fa-caret-down"></i>
 		    </a>
 			<ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
@@ -30,9 +30,9 @@
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<div class="input-group custom-search-form" style="padding: 10px 10px;">
-                <input type="text" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-	                <button class="btn btn-default" type="button">
+                <input id="key" type="text" class="form-control searchkey" placeholder="Search...">
+                <span class="input-group-btn" id="searchBtn">
+	                <button class="btn btn-default" type="button" >
 	                    <i class="fa fa-search"></i>
 	                </button>
             	</span>

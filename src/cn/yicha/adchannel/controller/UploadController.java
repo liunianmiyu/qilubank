@@ -2,9 +2,7 @@ package cn.yicha.adchannel.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.jfinal.core.Const;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PathKit;
 import com.jfinal.upload.UploadFile;
@@ -25,47 +24,59 @@ import com.jfinal.upload.UploadFile;
  */
 public class UploadController extends Controller {
 
+	private static int maxFileSize = Const.DEFAULT_MAX_POST_SIZE / 10; //上传最大限制为1M
+	
 	public void upload() {
 		String path = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-		UploadFile file = getFile("file", PathKit.getWebRootPath() + "/temp");
-		File source = file.getFile();
-		String fileName = file.getFileName();
-		String extension = fileName.substring(fileName.lastIndexOf("."));
-		String prefix;
-		if (".png".equals(extension) || ".jpg".equals(extension) || ".gif".equals(extension)) {
-			prefix = "uploadimg";
-			fileName = generateWord() + extension;
-		} else {
-			prefix = "uploadfile";
-		}
 		Map<String, Object> uploadResult = new HashMap<String, Object>();
 		try {
-			FileInputStream fis = new FileInputStream(source);
-			File targetDir = new File(PathKit.getWebRootPath() + "/" + prefix + "/u/" + path);
-			if (!targetDir.exists()) {
-				targetDir.mkdirs();
+			UploadFile file = getFile("file", PathKit.getWebRootPath() + "/temp");
+			File source = file.getFile();
+			if(source.length() > maxFileSize) {
+				uploadResult.put("error", 1);
+				uploadResult.put("message", "文件大小超过限制，请上传1M以内图片.");
+				source.delete();
+			}else {
+				String fileName = file.getFileName();
+				String extension = fileName.substring(fileName.lastIndexOf("."));
+				String prefix;
+				if (".png".equals(extension) || ".jpg".equals(extension) || ".gif".equals(extension)) {
+					prefix = "uploadimg";
+					fileName = generateWord() + extension;
+				} else {
+					prefix = "uploadfile";
+				}
+				FileInputStream fis = new FileInputStream(source);
+				File targetDir = new File(PathKit.getWebRootPath() + "/" + prefix + "/u/" + path);
+				if (!targetDir.exists()) {
+					targetDir.mkdirs();
+				}
+				File target = new File(targetDir, fileName);
+				if (!target.exists()) {
+					target.createNewFile();
+				}
+				FileOutputStream fos = new FileOutputStream(target);
+				byte[] bts = new byte[300];
+				while (fis.read(bts, 0, 300) != -1) {
+					fos.write(bts, 0, 300);
+				}
+				fos.flush();
+				fos.close();
+				fis.close();
+				uploadResult.put("error", 0);
+				uploadResult.put("url", "/" + prefix + "/u/" + path + "/" + fileName);
+				source.delete();
 			}
-			File target = new File(targetDir, fileName);
-			if (!target.exists()) {
-				target.createNewFile();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("===================" + e.getMessage());
+			if(e.getMessage().contains("Posted content length")){
+				uploadResult.put("error", 1);
+				uploadResult.put("message", "文件大小超过限制，请上传1M以内图片.");
+			}else{
+				uploadResult.put("error", 1);
+				uploadResult.put("message", "文件写入服务器出现错误，请稍后再上传");
 			}
-			FileOutputStream fos = new FileOutputStream(target);
-			byte[] bts = new byte[300];
-			while (fis.read(bts, 0, 300) != -1) {
-				fos.write(bts, 0, 300);
-			}
-			fos.flush();
-			fos.close();
-			fis.close();
-			uploadResult.put("error", 0);
-			uploadResult.put("url", "/" + prefix + "/u/" + path + "/" + fileName);
-			source.delete();
-		} catch (FileNotFoundException e) {
-			uploadResult.put("error", 1);
-			uploadResult.put("message", "上传出现错误，请稍后再上传");
-		} catch (IOException e) {
-			uploadResult.put("error", 1);
-			uploadResult.put("message", "文件写入服务器出现错误，请稍后再上传");
 		}
 		System.out.println("上传结果:" + uploadResult);
 		renderJson(uploadResult);

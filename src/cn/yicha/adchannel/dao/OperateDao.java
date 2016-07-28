@@ -133,11 +133,11 @@ public class OperateDao {
 	 * @return
 	 */
 	public List<Document> selectDoc(String key) {
-		return Document.dao.find("select * from document where content like '%" + key + "%' or name like '%"+key+"%' order by update_time desc");
+		return Document.dao.find("select * from document where content like '%" + key + "%' or `name` like '%"+key+"%' order by update_time desc");
 	}
 
 	public List<Picture> searchPic(String key) {
-		return Picture.dao.find("select * from picture where content like '%" + key + "%' or name like '%"+key+"%' order by update_time desc");
+		return Picture.dao.find("select * from picture where `desc` like '%" + key + "%' or `name` like '%"+key+"%' order by update_time desc");
 	}
 	/**
 	 * 根据文档id删除document表中文档内容记录
@@ -184,6 +184,6 @@ public class OperateDao {
 	}
 
 	public List<Program> getProgramAll() {
-		return Program.dao.find("select * from program order by update_time desc");
+		return Program.dao.find("select * from program");
 	}
 }

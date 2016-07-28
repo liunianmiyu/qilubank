@@ -88,13 +88,13 @@ var qiluAdmin = {
     	
     	if(moduleId != null && moduleId != ""){
     		$.getJSON(qiluAdmin.URL.programs(moduleId)).then(function(data){
-    			templateProgramSelect(data);
+    			templateProgramSelect(data, programId);
     		});
     	};
     	
     	if(programId != null && programId != ""){
     		$.getJSON(qiluAdmin.URL.items(programId)).then(function(data){
-    			templateItemSelect(data);
+    			templateItemSelect(data, itemId);
     		})
     	};
     	if(itemId != null && itemId != ""){
@@ -120,7 +120,11 @@ var qiluAdmin = {
     			$.getJSON(qiluAdmin.URL.items($("#programs").val())).then(function(data){
         			templateItemSelect(data);
         		}).then(function(){
-        			$.getJSON(qiluAdmin.URL.docsAndPics($("#items").val())).then(function(data){
+        			var dealItemId = parseInt($("#items").val());
+        			if(dealItemId >= 201 && dealItemId <= 208){
+        				dealItemId = parseInt($("#programs").val());
+        			}
+        			$.getJSON(qiluAdmin.URL.docsAndPics(dealItemId+"")).then(function(data){
         				$("#documentlist").show();
 	    				if(data.doc.length > 0){
 	    					templateDocuments(data.doc);
@@ -139,8 +143,12 @@ var qiluAdmin = {
     		$.getJSON(qiluAdmin.URL.items(programId)).then(function(data){
     			templateItemSelect(data);
     		}).then(function(){
+    			var dealItemId = parseInt($("#items").val());
+    			if(dealItemId >= 201 && dealItemId <= 208){
+    				dealItemId = parseInt(programId);
+    			}
     			$("#documentlist tbody").html("");
-    			$.getJSON(qiluAdmin.URL.docsAndPics($("#items").val())).then(function(data){
+    			$.getJSON(qiluAdmin.URL.docsAndPics(dealItemId)).then(function(data){
     				$("#documentlist").show();
         			if(data.doc.length > 0){
         				templateDocuments(data.doc);
@@ -155,7 +163,11 @@ var qiluAdmin = {
     	$(document).on("change", "#items", function(){
     		var itemId = $(this).val();
     		$("#documentlist tbody").html("");
-    		$.getJSON(qiluAdmin.URL.docsAndPics(itemId)).then(function(data){
+    		var dealItemId = parseInt(itemId);
+			if(dealItemId >= 201 && dealItemId <= 208){
+				dealItemId = parseInt($("#programs").val());
+			}
+    		$.getJSON(qiluAdmin.URL.docsAndPics(dealItemId+"")).then(function(data){
     			$("#documentlist").show();
     			if(data.doc.length > 0){
     				templateDocuments(data.doc);
@@ -178,11 +190,11 @@ var qiluAdmin = {
     		$("#modules").html(modulesStr);
     	};
     	//拼装program select
-    	templateProgramSelect = function(data, moduleId) {
+    	templateProgramSelect = function(data, programId) {
     		$("#programs").html("");
     		var programsStr = "";
 			$(data).each(function(index, item){
-				if(programId != "" && programId == item.id){
+				if(programId != "" && programId != null && programId == item.id){
 					programsStr += "<option value='"+item.id+"' selected='selected'>"+item.name+"</option>" 
 				}else{
 					programsStr += "<option value='"+item.id+"'>"+item.name+"</option>" 
@@ -191,11 +203,15 @@ var qiluAdmin = {
 			$("#programs").html(programsStr);
     	};
     	//拼装itmes select
-    	templateItemSelect = function(data, programId) {
+    	templateItemSelect = function(data, itemId) {
     		$("#items").html("");
     		var itemssStr = "";
 			$(data).each(function(index, item){
-				itemssStr += "<option value='"+item.id+"' title='"+item.name+"'>"+item.name.substring(0,20)+"</option>" 
+				if(itemId != null && itemId != "" && itemId == item.id){
+					itemssStr += "<option value='"+item.id+"' title='"+item.name+"' selected='selected'>"+item.name.substring(0,50)+"</option>" 
+				}else {
+					itemssStr += "<option value='"+item.id+"' title='"+item.name+"'>"+item.name.substring(0,50)+"</option>" 
+				}
 			});
 			$("#items").html(itemssStr);
     	};
@@ -207,7 +223,6 @@ var qiluAdmin = {
 				docsStr += "<tr>"+
 				           "<td>文档</td>" +
 				           "<td>" + item.name + "</td>" +
-				           "<td>-</td>" +
 				           "<td>"+item.create_time+"</td>" +
 				           "<td>"+item.update_time+"</td>" +
 				           "<td>"+item.operate_user+"</td>" +
@@ -226,7 +241,6 @@ var qiluAdmin = {
 				picsStr += "<tr>"+
 				           "<td style='color:red;'>图片</td>" +
 				           "<td>"+item.name+"</td>" +
-				           "<td>"+item.url+"</td>"+
 				           "<td>"+item.create_time+"</td>" +
 				           "<td>"+item.update_time+"</td>" +
 				           "<td>"+item.operate_user+"</td>" +
@@ -264,6 +278,15 @@ var qiluAdmin = {
     				}
     			});
     		}
-    	})
+    	});
+    	
+    	$(document).on("click", "#searchBtn", function(){
+			var key = $(".searchkey").val();
+			if(key == "" || key == null) {
+				alert("请输入搜索词！");
+				return false;
+			}
+			window.location.href = qiluAdmin.rootPath + "/admin/search?key=" + key;
+		});
     }
 }

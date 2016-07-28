@@ -37,7 +37,7 @@
             <!-- /.row -->
             <div class="row" style="margin-top:15px;">
             	<div class="panel panel-warning">
-				  <div class="panel-heading">${module.name}>>>${program.name}>>>${item.name[0..30]}</div>
+				  <div class="panel-heading">${module.name}>>>${program.name}>>>${item.name}</div>
 				  <div class="panel-body">
 				    <form id="editPicForm">
 				    <#if pic ??>
@@ -113,6 +113,8 @@ $(function(){
 		window.location.href = "${rootPath}/admin/editPic?itemId=${itemId}&picId="+picId+"&title=" + title + "&url=" + imgUrl + "&desc=" + imgDesc;
 	});
 	$("#editPicForm input[name='file']").on("change", function(){
+		$("#successImg").attr("src", "");
+		$(".help-block").html("");
 		ajaxFileUpload(); 
 	});
 	function ajaxFileUpload() {
@@ -124,19 +126,19 @@ $(function(){
                 fileElementId: 'imgFile', //文件上传空间的id属性  <input type="file" id="file" name="file" />
                 dataType: 'JSON', //返回值类型 一般设置为json
                 success: function (data){
-                	console.info("图片上传:" + data);
                 	data = jQuery.parseJSON(jQuery(data).text());
-                	console.info("parse data to json:" + data);
+                	console.info(data);
                     if(data.error == 0){
-	                    $(".help-block").html("图片上传成功.")
+	                    $(".help-block").html("图片上传成功.").css("color", "green");
 	                    $("#successImg").attr("src", "${rootPath}" + data.url).css("width", "300px").css("height", "200px");
 	                    $("#editPicForm input[name='url']").val(data.url);
-                    }else{
-                    	$(".help-block").html(data.message);
+                    }else if(data.error == 1){
+                    	$(".help-block").html(data.message + ", 重新编辑请刷新当前页面.").css("color", "red");
                     }
                 },
-                error: function (data, status, e){//服务器响应失败处理函数
-                    alert(e);
+                error: function (data){//服务器响应失败处理函数
+                	console.info(data);
+                	data = jQuery.parseJSON(jQuery(data).text());
                 }
             }
         )

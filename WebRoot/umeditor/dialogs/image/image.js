@@ -145,7 +145,7 @@
         uploadTpl: '<div class="edui-image-upload%%">' +
             '<span class="edui-image-icon"></span>' +
             '<form class="edui-image-form" method="post" enctype="multipart/form-data" target="up">' +
-            '<input style=\"filter: alpha(opacity=0);\" class="edui-image-file" type="file" hidefocus name="upfile" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"/>' +
+            '<input style=\"filter: alpha(opacity=0);\" class="edui-image-file" type="file" hidefocus name="file" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp"/>' +
             '</form>' +
 
             '</div>',
@@ -191,8 +191,10 @@
             var me = this;
             try{
                 var json = eval('('+r+')');
+                console.info("upload json result:" + json);
                 Base.callback(me.editor, me.dialog, json.url, json.state);
             }catch (e){
+            	console.info("chu cuo le");
                 var lang = me.editor.getLang('image');
                 Base.callback(me.editor, me.dialog, '', (lang && lang.uploadError) || 'Error!');
             }
@@ -200,7 +202,7 @@
         submit: function (callback) {
 
             var me = this,
-                input = $( '<input style="filter: alpha(opacity=0);" class="edui-image-file" type="file" hidefocus="" name="upfile" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp">'),
+                input = $( '<input style="filter: alpha(opacity=0);" class="edui-image-file" type="file" hidefocus="" name="file" accept="image/gif,image/jpeg,image/png,image/jpg,image/bmp">'),
                 input = input[0];
 
             $(me.dialog).delegate( ".edui-image-file", "change", function ( e ) {

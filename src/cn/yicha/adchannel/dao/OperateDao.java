@@ -63,7 +63,7 @@ public class OperateDao {
 	 * @return
 	 */
 	public List<Document> selectDocByItemId(Integer id) {
-		return Document.dao.find("select * from document where item_id=" + id + " order by update_time desc");
+		return Document.dao.find("select id,name,update_time from document where item_id=" + id + " order by update_time desc");
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class OperateDao {
 	 * @return
 	 */
 	public List<Document> selectDoc(String key) {
-		return Document.dao.find("select * from document where content like '%" + key + "%' or `name` like '%"+key+"%' order by update_time desc");
+		return Document.dao.find("select name,id,update_time from document where content like '%" + key + "%' or `name` like '%"+key+"%' order by update_time desc");
 	}
 
 	public List<Picture> searchPic(String key) {

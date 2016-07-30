@@ -160,7 +160,16 @@ public class OperateService {
 	 * @return
 	 */
 	public List<Document> selectDoc(String key) {
-		return operateDao.selectDoc(key);
+		List<Document> list = operateDao.selectDoc(key);
+		List<Document> temp = new ArrayList<Document>();
+		Map map = new HashMap();
+		for(Document doc : list){
+			if(map.get(doc.get("name").toString()) == null){
+				temp.add(doc);
+				map.put(doc.get("name").toString(), doc.get("name").toString());
+			}
+		}
+		return temp;
 	}
 
 	public List<Picture> searchPicture(String key) {

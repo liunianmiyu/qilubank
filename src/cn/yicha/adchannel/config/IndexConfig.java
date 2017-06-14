@@ -11,6 +11,7 @@ import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.kit.PropKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.c3p0.C3p0Plugin;
+import com.jfinal.plugin.ehcache.EhCachePlugin;
 
 import cn.yicha.adchannel.inteceptor.LoginInterceptor;
 import cn.yicha.adchannel.model.Document;
@@ -51,6 +52,9 @@ public class IndexConfig extends JFinalConfig {
 	public void configPlugin(Plugins me) {
 		// TODO Auto-generated method stub
 
+		//添加ehcache插件
+		me.add(new EhCachePlugin());
+		
 		C3p0Plugin cpGg = new C3p0Plugin(
 				loadPropertyFile("db.properties"));
 		me.add(cpGg);

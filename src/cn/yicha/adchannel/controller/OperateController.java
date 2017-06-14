@@ -1,8 +1,14 @@
 package cn.yicha.adchannel.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.ehcache.CacheInterceptor;
+import com.jfinal.plugin.ehcache.CacheKit;
+
 import cn.yicha.adchannel.model.Document;
 import cn.yicha.adchannel.model.Program;
 import cn.yicha.adchannel.service.OperateService;
@@ -19,6 +25,7 @@ public class OperateController extends Controller {
 	/**
 	 * 查询模块和他的下级项目
 	 */
+	@Before(CacheInterceptor.class)
 	public void menu() {
 		renderJson(operateService.selectMenu());
 	}
@@ -26,6 +33,7 @@ public class OperateController extends Controller {
 	/**
 	 * 根据项目id查询条目信息
 	 */
+	@Before(CacheInterceptor.class)
 	public void item() {
 		String id = getPara("id");
 		renderJson(operateService.selectItemByProgramId(Integer.parseInt(id)));
@@ -39,9 +47,10 @@ public class OperateController extends Controller {
 		renderJson(operateService.selectDocByItemId(Integer.parseInt(id)));
 	}
 
-	public void docAll(){
+	public void docAll() {
 		renderJson(operateService.selectDocAll());
 	}
+
 	/**
 	 * 根据条目id查询图片信息
 	 */
@@ -55,7 +64,14 @@ public class OperateController extends Controller {
 	 */
 	public void getDocAndPic() {
 		int itemId = getParaToInt("id");
-		renderJson(operateService.selectDouAndPicByItemId(itemId));
+		Map<String, Object> indexMap = CacheKit.get("60time", "docAndpic" + itemId);
+		if (indexMap == null) {
+			indexMap = operateService.selectDouAndPicByItemId(itemId);
+			CacheKit.put("60time", "docAndpic" + itemId, indexMap);
+		}else {
+			System.out.println("from ehcache.");
+		}
+		renderJson(indexMap);
 	}
 
 	/**

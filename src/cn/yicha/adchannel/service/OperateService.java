@@ -160,16 +160,7 @@ public class OperateService {
 	 * @return
 	 */
 	public List<Document> selectDoc(String key) {
-		List<Document> list = operateDao.selectDoc(key);
-		List<Document> temp = new ArrayList<Document>();
-		Map map = new HashMap();
-		for(Document doc : list){
-			if(map.get(doc.get("name").toString()) == null){
-				temp.add(doc);
-				map.put(doc.get("name").toString(), doc.get("name").toString());
-			}
-		}
-		return temp;
+		return operateDao.selectDoc(key);
 	}
 
 	public List<Picture> searchPicture(String key) {
@@ -187,6 +178,7 @@ public class OperateService {
 	 * @return
 	 */
 	public Map<String, Object> selectDouAndPicByItemId(int itemId) {
+		System.out.println("============ search doc and pic of " + itemId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("doc", operateDao.selectDocByItemId(itemId));
 		map.put("pic", operateDao.selectPicByItemId(itemId));

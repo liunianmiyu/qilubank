@@ -26,7 +26,7 @@ public class AdminController extends Controller {
 
 	private OperateService operateService = OperateService.getInstance();
 	private LoginService loginService = LoginService.getInstance();
-	
+
 	public void index() {
 		int role = getSessionAttr("role");
 		if (role < 1) {
@@ -35,12 +35,12 @@ public class AdminController extends Controller {
 			setAttr("moduleId", getPara("moduleId", ""));
 			setAttr("programId", getPara("programId", ""));
 			int itemId = getParaToInt("itemId", 0);
-			if(itemId >= 201 && itemId <= 208){
+			if (itemId >= 201 && itemId <= 208) {
 				itemId = getParaToInt("programId");
 			}
-			if(itemId == 0) {
+			if (itemId == 0) {
 				setAttr("itemId", "");
-			}else{
+			} else {
 				setAttr("itemId", String.valueOf(itemId));
 			}
 			render("/admin/index.html");
@@ -87,6 +87,10 @@ public class AdminController extends Controller {
 		if (docId != 0) {
 			setAttr("doc", operateService.selectDocumentById(docId));
 		}
+		// 员工风采 企业年鉴 picture 的itemid 实际为 program id
+		if (itemId >= 1111 && itemId <= 1118) {
+			itemId = itemId - 910;
+		}
 		setAttr("itemId", itemId);
 		Item item = operateService.selectItmeById(itemId);
 		Program program = operateService.selectProgramById(item.getInt("program_id"));
@@ -101,7 +105,7 @@ public class AdminController extends Controller {
 	 * 文档编辑上传页面
 	 */
 	public void editDoc() {
-		//201 -208 当itemid大于等于201或者小于等于208时，文档的item_id为programid 
+		// 201 -208 当itemid大于等于201或者小于等于208时，文档的item_id为programid
 		String user = (String) this.getSession().getAttribute("user");
 		int itemId = getParaToInt("itemId");
 		int documentId = getParaToInt("id", 0);
@@ -112,7 +116,7 @@ public class AdminController extends Controller {
 		Module module = operateService.selectModuleById(program.getInt("module_id"));
 		boolean result = false;
 		int realItemId = itemId;
-		if(itemId >= 201 && itemId <= 208){
+		if (itemId >= 201 && itemId <= 208) {
 			realItemId = item.getInt("program_id");
 		}
 		if (documentId == 0) {
@@ -122,7 +126,7 @@ public class AdminController extends Controller {
 			result = operateService.selectDocumentById(documentId).set("name", title).set("content", content)
 					.set("update_time", new Date()).set("operate_user", user).update();
 		}
-		
+
 		if (result) {
 			redirect("/admin/index?moduleId=" + module.getInt("id") + "&programId=" + program.getInt("id") + "&itemId="
 					+ itemId);
@@ -157,7 +161,12 @@ public class AdminController extends Controller {
 		int itemId = getParaToInt("itemId");
 		int picId = getParaToInt("picId", 0);
 		if (picId != 0) {
-			setAttr("pic", operateService.selectPictureById(picId));
+			Picture picture = operateService.selectPictureById(picId);
+			setAttr("pic", picture);
+		}
+		// 员工风采 企业年鉴 picture 的itemid 实际为 program id
+		if (itemId >= 1111 && itemId <= 1118) {
+			itemId = itemId - 910;
 		}
 		setAttr("itemId", itemId);
 		Item item = operateService.selectItmeById(itemId);
@@ -173,7 +182,7 @@ public class AdminController extends Controller {
 	 * 编辑或者更新图片信息
 	 */
 	public void editPic() {
-		//201 -208 当itemid大于等于201或者小于等于208时，图片的item_id为programid 
+		// 201 -208 当itemid大于等于201或者小于等于208时，图片的item_id为programid
 		String user = (String) this.getSession().getAttribute("user");
 		int itemId = getParaToInt("itemId");
 		int picId = getParaToInt("picId", 0);
@@ -184,7 +193,7 @@ public class AdminController extends Controller {
 		Program program = operateService.selectProgramById(item.getInt("program_id"));
 		Module module = operateService.selectModuleById(program.getInt("module_id"));
 		int realItemId = itemId;
-		if(itemId >= 201 && itemId <= 208){
+		if (itemId >= 201 && itemId <= 208) {
 			realItemId = item.getInt("program_id");
 		}
 		boolean result = false;
@@ -235,53 +244,55 @@ public class AdminController extends Controller {
 	/**
 	 * 用户管理
 	 */
-	public void users(){
+	public void users() {
 		int role = getSessionAttr("role");
-		if(role == 0){
+		if (role == 0) {
 			redirect("/");
-		}else if(role == 1){
+		} else if (role == 1) {
 			redirect("/admin");
-		}else{
+		} else {
 			setAttr("users", loginService.getAllUsers());
 			render("/admin/users.html");
 		}
 	}
-	
+
 	/**
-	 *添加或修改用户信息
+	 * 添加或修改用户信息
 	 */
-	public void editUser(){
+	public void editUser() {
 		int id = getParaToInt("id", 0);
 		String name = getPara("name");
 		String passwd = getPara("passwd");
 		int role = getParaToInt("role");
 		boolean flag = false;
-		if(id == 0) {
-			flag = new User().set("name", name).set("pwd", Md5Util.md5(passwd)).set("role", role).set("create_time", new Date()).set("update_time", new Date()).save();
-		}else {
-			flag = loginService.getUserById(id).set("name", name).set("pwd",  Md5Util.md5(passwd)).set("role", role).set("update_time", new Date()).update();
+		if (id == 0) {
+			flag = new User().set("name", name).set("pwd", Md5Util.md5(passwd)).set("role", role)
+					.set("create_time", new Date()).set("update_time", new Date()).save();
+		} else {
+			flag = loginService.getUserById(id).set("name", name).set("pwd", Md5Util.md5(passwd)).set("role", role)
+					.set("update_time", new Date()).update();
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
-		if(flag){
+		if (flag) {
 			result.put("status", 200);
 			result.put("msg", "操作成功");
-		}else{
+		} else {
 			result.put("status", 400);
 			result.put("msg", "操作失败");
 		}
 		renderJson(result);
 	}
-	
+
 	/**
 	 * 删除用户
 	 */
 	public void delUser() {
 		int id = getParaToInt("id");
 		Map<String, Object> result = new HashMap<String, Object>();
-		if(loginService.delUser(id)) {
+		if (loginService.delUser(id)) {
 			result.put("status", 200);
 			result.put("msg", "操作成功");
-		}else {
+		} else {
 			result.put("status", 400);
 			result.put("msg", "操作失败");
 		}

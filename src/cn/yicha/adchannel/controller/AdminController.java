@@ -24,6 +24,8 @@ import cn.yicha.adchannel.util.Md5Util;
  */
 public class AdminController extends Controller {
 
+	private static final String pageHome = "/WEB-INF/page/admin";
+	
 	private OperateService operateService = OperateService.getInstance();
 	private LoginService loginService = LoginService.getInstance();
 
@@ -43,7 +45,8 @@ public class AdminController extends Controller {
 			} else {
 				setAttr("itemId", String.valueOf(itemId));
 			}
-			render("/admin/index.html");
+			System.out.println(pageHome + "/index.html");
+			render(pageHome + "/index.html");
 		}
 	}
 
@@ -98,7 +101,7 @@ public class AdminController extends Controller {
 		setAttr("item", item);
 		setAttr("program", program);
 		setAttr("module", module);
-		render("/admin/document.html");
+		render(pageHome + "/document.html");
 	}
 
 	/**
@@ -238,7 +241,7 @@ public class AdminController extends Controller {
 		String key = getPara("key");
 		setAttr("docs", operateService.selectDoc(key));
 		setAttr("pics", operateService.searchPicture(key));
-		render("/admin/search_result.html");
+		render(pageHome + "/search_result.html");
 	}
 
 	/**
@@ -252,7 +255,7 @@ public class AdminController extends Controller {
 			redirect("/admin");
 		} else {
 			setAttr("users", loginService.getAllUsers());
-			render("/admin/users.html");
+			render(pageHome + "/users.html");
 		}
 	}
 

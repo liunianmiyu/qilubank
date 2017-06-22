@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>齐鲁银行东环支行档案管理平台</title>
+		<link rel="stylesheet" href="${rootPath}/statics/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="${rootPath}/statics/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" href="${rootPath}/statics/css/admin.css" />
+		<link rel="stylesheet" href="${rootPath}/statics/css/timeline.css" />
+		<link href="//cdn.bootcss.com/metisMenu/2.5.2/metisMenu.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="${rootPath}/statics/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="${rootPath}/statics/css/morris.css" />
+		<style>
+			body{
+				padding: 0;
+				margin: 0;
+				min-width: 1200px !important;
+			}
+			table>thead>tr>th{
+				text-align:center;
+			}
+			table>tbody>tr>td{
+				text-align:center;
+			}
+			table td {
+			  	white-space: nowrap;
+			  	overflow: hidden;
+			  	text-overflow: ellipsis;
+			}
+		</style>
+	</head>
+<body>
+	<input type="hidden" value="${rootPath}" id="rootPath">
+	<div id="wrapper">
+       	<#include "../common/header_admin.html">
+        <div id="page-wrapper">
+            <!-- /.row -->
+            <div class="row" style="margin-top:15px;">
+            	<div class="panel panel-warning">
+				  <div class="panel-heading">${module.name}>>>${program.name}>>>${item.name}</div>
+				  <div class="panel-body">
+				    <form id="editPicForm">
+				    <#if pic ??>
+	            	  <input type="hidden" value="${pic.id}" name="id">
+	            	  <input type="hidden" value="${itemId}" name="itemId">
+					  <div class="form-group">
+					    <label for="">图片标题</label>
+					    <input type="text" class="form-control" name="title" placeholder="图片标题" style="width:300px;" value="${pic.name}">
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleInputFile">选择上传的图片</label>
+					    <input type="hidden" value="${pic.url}" name="url">
+					    <input type="file" id="imgFile" name="file">
+					    <p class="help-block"></p>
+					    <img id="successImg" alt="" src="${rootPath}/${pic.url}" style="width:300px; height:200px">
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleInputPassword1">图片描述</label>
+						<textarea class="form-control" rows="3" cols="4" name="desc" style="width:500px;">${pic.desc}</textarea>
+					  </div>
+					 <#else>
+					 	<input type="hidden" value="" name="id">
+	            	    <input type="hidden" value="${itemId}" name="itemId">
+					    <div class="form-group">
+					       <label for="">文档标题</label>
+					       <input type="text" class="form-control" name="title" placeholder="图片标题" style="width:300px;" value="">
+					    </div>
+					    <div class="form-group">
+						    <label for="">选择上传的图片</label>
+						    <input type="hidden" value="" name="url">
+						    <input type="file" id="imgFile" name="file">
+						    <p class="help-block"></p>
+						    <img id="successImg" alt="" src="">
+					   </div>
+					    <div class="form-group">
+					       <label for="exampleInputPassword1">文档内容</label>
+						   <textarea class="form-control" rows="3" cols="4" name="desc" style="width:500px;"></textarea>
+					    </div>
+					 </#if>
+					  <button type="button" class="btn btn-success submitBtn">提交</button>
+					  <button type="reset" class="btn btn-danger">重置</button>
+					  <a href="${rootPath}/admin?moduleId=${module.id}&programId=${program.id}&itemId=${item.id}" class="btn btn-primary">返回</a>
+					</form>
+				  </div>
+				</div>
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+</body>
+<script src="${rootPath}/statics/libs/jquery.min.js" ></script>
+<script src="${rootPath}/statics/libs/bootstrap.min.js" ></script>
+<script src="${rootPath}/statics/libs/admin.js" ></script>
+<script src="${rootPath}/statics/js/qiluadmin.js"></script>
+<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdn.bootcss.com/metisMenu/2.5.2/metisMenu.min.js"></script>
+<script src="${rootPath}/statics/libs/ajaxfileupload.js"></script>
+<script type="text/javascript">
+$(function(){
+	$(".submitBtn").on("click", function(){
+		var title = $("#editPicForm input[name='title']").val();
+		if(title == null || title == "") {
+			alert("图片标题不能为空哦!");
+			return false;
+		}
+		var imgUrl = $("#editPicForm input[name='url']").val();
+		if(imgUrl == null || imgUrl == ""){
+			alert("还未上传图片!");
+			return false;
+		}
+		var imgDesc = $("#editPicForm textarea[name='desc']").val();
+		var picId = $("#editPicForm input[name='id']").val();
+		window.location.href = "${rootPath}/admin/editPic?itemId=${itemId}&picId="+picId+"&title=" + title + "&url=" + imgUrl + "&desc=" + imgDesc;
+	});
+	$("#editPicForm input[name='file']").on("change", function(){
+		$("#successImg").attr("src", "");
+		$(".help-block").html("");
+		ajaxFileUpload(); 
+	});
+	function ajaxFileUpload() {
+        $.ajaxFileUpload({
+                url: '${rootPath}/upload/upload', //用于文件上传的服务器端请求地址
+                type: 'post',
+                data: {}, //此参数非常严谨，写错一个引号都不行
+                secureuri: false, //一般设置为false
+                fileElementId: 'imgFile', //文件上传空间的id属性  <input type="file" id="file" name="file" />
+                dataType: 'JSON', //返回值类型 一般设置为json
+                success: function (data){
+                	data = jQuery.parseJSON(jQuery(data).text());
+                	console.info(data);
+                    if(data.error == 0){
+	                    $(".help-block").html("图片上传成功.").css("color", "green");
+	                    $("#successImg").attr("src", "${rootPath}" + data.url).css("width", "300px").css("height", "200px");
+	                    $("#editPicForm input[name='url']").val(data.url);
+                    }else if(data.error == 1){
+                    	$(".help-block").html(data.message + ", 重新编辑请刷新当前页面.").css("color", "red");
+                    }
+                },
+                error: function (data){//服务器响应失败处理函数
+                	console.info(data);
+                	data = jQuery.parseJSON(jQuery(data).text());
+                }
+            }
+        )
+        return false;
+    }
+});
+</script>
+</html>

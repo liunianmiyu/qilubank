@@ -16,17 +16,15 @@ import cn.yicha.adchannel.service.OperateService;
  */
 public class IndexController extends Controller {
 
+	private static final String pageHome = "/WEB-INF/page/front";
+	
 	private OperateService operateService = OperateService.getInstance();
 
 	/**
 	 * 首页
 	 */
-	public void indexmy() {
-		render("/html/index.html");
-	}
-	
 	public void index() {
-		render("/html/index_visit.html");
+		render(pageHome + "/index_visit.html");
 	}
 	
 	/**
@@ -42,7 +40,7 @@ public class IndexController extends Controller {
 			setAttr("program", program);
 			setAttr("module", module);
 			setAttr("items", operateService.selectItemByProgramId(programId));
-			render("/html/items.html");
+			render(pageHome + "/items.html");
 		}
 	}
 
@@ -64,7 +62,7 @@ public class IndexController extends Controller {
 			setAttr("item", item);
 			setAttr("docs", docs);
 			setAttr("pics", pics);
-			render("/html/contents.html");
+			render(pageHome + "/contents.html");
 		}
 	}
 	
@@ -85,7 +83,7 @@ public class IndexController extends Controller {
 			setAttr("program", program);
 			setAttr("item", item);
 			setAttr("document", document);
-			render("/html/document.html");
+			render(pageHome + "/document.html");
 		}
 	}
 }

@@ -20,7 +20,7 @@ public class LoginController extends Controller {
 	 */
 	@Clear
 	public void index() {
-		render("/admin/login.html");
+		render("/WEB-INF/page/login.html");
 	}
 
 	/**

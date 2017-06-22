@@ -1,0 +1,82 @@
+<header>
+	<a class="header-left">
+		<img src="https://dn-coding-net-production-static.qbox.me/static/5ee8025c9dc63a6ff53153705d0e7ce8.png" height="55">
+	</a>
+	<div class="header-title">
+		<span>星级网点申请档案管理平台<span>
+	</div>
+	<div class="header-right">
+        <!-- <a class="icon outsideIcon" href="https://mart.coding.net" target="_blank">
+            <img src="https://dn-coding-net-production-static.qbox.me/static/d96b3b8192d6abefb2585d80fa81e56b.png">
+        </a> 
+        <span class="vertical-line"></span>-->
+    	<a class="btn btn-primary">帐号申请</a>
+    	<a class="btn btn-default">登录</a>
+	</div>
+</header>
+
+
+<style type="text/css">
+header{
+	position: relative;
+	height: 60px;
+    line-height: 60px;
+    width: 100%;
+	background:#fff;
+}
+header::after{
+	content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+header > a , header >div{
+	display: inline-block;
+
+}
+.header-left{
+	margin-left: 10px;
+	position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 999;
+}
+.header-title{
+	width:100%;
+	font-size: 20px;
+	text-align: center;
+}
+.header-right{
+	position: absolute;
+    top: 0;
+    right: 10px;
+    padding: 0;
+}
+header .vertical-line{
+    margin:20px 20px 0;
+    font-size: 20px;
+    vertical-align: middle;
+    border-left: 1px solid rgba(0,0,0,.2);
+}
+header .outsideIcon img{
+	height:50px;
+}
+.btn{
+	font-size: 14px;
+    padding: 0 1.5em;
+    text-transform: none;
+    line-height: 30px;
+    height: 30px;
+    color: #000;
+    background-image: none;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    -ms-border-radius: 2em;
+    -o-border-radius: 2em;
+    border-radius: 2em;
+    border-color: #ccc;
+    background-color: #FFF;
+
+}
+</style>

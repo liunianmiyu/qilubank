@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>齐鲁银行</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="${rootPath}/statics/css/bootstrap.min.css" />
+		<script type="text/javascript" src="${rootPath}/statics/libs/jquery.min.js" ></script>
+		<script type="text/javascript" src="${rootPath}/statics/libs/bootstrap.min.js" ></script>
+		<style>
+			body{
+				margin-bottom: 150px;
+				background-image: url(${rootPath}/statics/images/page-bg-1.jpg);
+			}
+			.container{
+				width:72%;
+			}
+			.head{
+				height:100px;
+				width:100%;
+				margin-left:0;
+				margin-bottom:10px;
+				background:url(${rootPath}/statics/images/header.jpg) no-repeat;
+				background-color:white;
+			}
+			.carousel{
+				height:300px;
+				background-color: #000;
+			}
+			.carousel .item{
+				height:300px;
+				background-color: #000;
+			}
+			.carousel img{
+				width:100%;
+			}
+			.color-bar-1, .color-bar-2 { width:100% }
+			.color-bar-1 { background:#F4A200; height:5px; }
+			.color-bar-2 { height:3px;background:#0099DC; }
+			.title-2{
+				font-family:"楷体";
+				padding:10px 5px;
+				margin: 5px 0px 20px 0px;
+				border-bottom: 1px dotted #a9a9a9;
+				border-top: 1px dotted #a9a9a9;
+			}
+			.module-img{
+				height:200px;
+				margin-top: 15px;
+				padding: 10px;
+			}
+			.module-img img{
+				height:100%;
+				width:100%;
+			}
+			.caption{
+				text-align: center;
+			}
+			.list-group-item{
+				border:0px;
+				white-space:nowrap;
+				text-overflow:ellipsis;overflow:hidden;
+				font-family:'楷体';
+				font-size:20px;
+				padding-left:0px;
+				padding-right:0px;
+ 			}
+			.con a:hover{
+				position:relative;
+				top:1px;
+				left:1px;
+				text-decoration: none;
+				cursor:pointer;
+			}
+		</style>
+		<script>
+			$(document).ready(function(){
+				if($(window).width()<1300){
+					$('.container').css('width','90%');
+				}
+				$('#myCarousel').carousel();
+				$.getJSON('${rootPath}/operate/docAll',function(data){
+					var docname = "";
+					for(var i = 0;i<data.length;i++){
+						docname += '<a><p id="doc_'+data[i].id+'">'+data[i].name+'</p></a>'
+					}
+					$('#marquee').html(docname);
+				});
+			});
+			$(document).on("click", ".list-group-item", function(){
+				var id = $(this).attr('id');
+				window.location.href = "${rootPath}/operate/main?id="+id; 
+			}).on("click", "marquee p", function(e){
+				var id = $(this).attr('id');
+				window.location.href = "${rootPath}/operate/showDoc?id="+id.split('_')[1]; 
+			}).on("mouseover", "marquee p", function(e){
+				$('#marquee').stop();
+			});
+			function search(){
+				var key = $('#key').val();
+				window.location.href ="${rootPath}/operate/main?id=search_"+key;
+			}
+		</script>
+	</head>
+	<body class="container">
+		<div class="row head" >
+			<div class="col-md-8 col-sm-6 col-xm-6" style="align:center;height:100%;">
+			</div>
+			<div class="col-md-4 col-sm-6 col-xm-6">
+				<div style="float: right;margin-top:5px;">
+					<#if session["user"]??>
+				    <a href="#" type="button" class="btn btn-success">
+				      <span class='glyphicon'>${session["user"]}</span>
+				    </a>
+					<a href="${rootPath}/login/logout" type="button" class="btn btn-danger">
+				      <span class='glyphicon glyphicon-log-out'>退出</span>
+				    </a>
+					</#if>
+				</div>
+				<div class="input-group" style="float: right;margin-top: 20px;">
+	               <input id="key" type="text" class="form-control" placeholder="根据关键字查询文档">
+	               <span class="input-group-btn">
+	                  <button class="btn btn-primary" type="button" onclick="search()">搜索</button>
+	               </span>
+	            </div>
+			</div>
+		</div>
+		<div class="color-bar-1"></div>
+		<div class="color-bar-2"></div>
+		<div class="row" style="margin-top: 10px;">
+			<div class="col-md-7 col-sm-6 col-xm-6">
+				<div id="myCarousel" class="carousel slide">
+				   <!-- 轮播（Carousel）指标 -->
+				   <ol class="carousel-indicators">
+				      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				      <li data-target="#myCarousel" data-slide-to="1"></li>
+				      <li data-target="#myCarousel" data-slide-to="2"></li>
+				      <li data-target="#myCarousel" data-slide-to="3"></li>
+				      <li data-target="#myCarousel" data-slide-to="4"></li>
+				   </ol>   
+				   <!-- 轮播（Carousel）项目 -->
+				   <div class="carousel-inner">
+				      <div class="item active">
+				         <img src="${rootPath}/statics/images/可以进行适当裁剪.jpg" alt="First slide" style="width:100%;height:100%;">
+				      </div>
+				      <div class="item">
+				         <img src="${rootPath}/statics/images/20151214163527069665782773.jpg" alt="Second slide" style="width:100%;height:100%;">
+				      </div>
+				      <div class="item">
+				         <img src="${rootPath}/statics/images/20160125133946453799324993.jpg" alt="Third slide" style="width:100%;height:100%;">
+				      </div>
+				      <div class="item">
+				         <img src="${rootPath}/statics/images/201604251015336681187380369.jpg" alt="Fourth slide" style="width:100%;height:100%;">
+				      </div>
+				      <div class="item">
+				         <img src="${rootPath}/statics/images/20151204163821805838798725.jpg" alt="Fourth slide" style="width:100%;height:100%;">
+				      </div>
+				   </div>
+				   <!-- 轮播（Carousel）导航 -->
+				   <a class="carousel-control left" href="#myCarousel" 
+				      data-slide="prev">&lsaquo;</a>
+				   <a class="carousel-control right" href="#myCarousel" 
+				      data-slide="next">&rsaquo;</a>
+				</div>
+			</div>
+			<div class="col-md-5 col-sm-6 col-xm-6" style="height:300px;">
+				<h3 style="text-align: center;">齐鲁银行东环支行简介</h3>
+					<p style="font-family:'楷体';font-size:18px;text-indent:2em;">
+					齐鲁银行济南东环支行坐落在泉城济南东部交通主干道二环东路上，支行成立于1996年，是一家综合性支行，现有员工45人，平均年龄28岁，大专以上学历占比超过85%，是一支年富力强，团结协作，充满正能量的高素质团队。
+					</p>
+					<p style="font-family:'楷体';font-size:18px;text-indent:2em;">
+					 支行一贯秉承“工与细节，赢在习惯”的服务理念，全体东环人用贴心的服务赢得了客户信任，以艰辛的付出收获了累累果实。
+					<p>
+			</div>
+		</div>
+		<h3 class="title-2"></h3>
+		<!-- <div id="menu"></div> -->
+		<div class="row con">
+			<div class="col-md-7 col-sm-9">
+				<div class="row">
+					<div class="col-md-4 col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<button class="pull-right padtop btn btn-default" onclick="window.location.href='${rootPath}/operate/main?id=module_0'">进入</button>
+								<h4 style="text-align:center;">档案平台</h4>
+							</div>
+							<div class="panel-body">
+								<a class="list-group-item" id="module_101">环境管理</a>
+								<a class="list-group-item" id="module_102">服务功能</a>
+								<a class="list-group-item" id="module_103">信息管理</a>
+								<a class="list-group-item" id="module_104">大堂管理</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 style="text-align:center;">明星员工</h4>
+							</div>
+							<div class="panel-body">
+								<a class="list-group-item" id="dept_1111">营业部</a>
+								<a class="list-group-item" id="dept_1112">国际部</a>
+								<a class="list-group-item" id="dept_1113">信贷部</a>
+								<a class="list-group-item" id="dept_1114">风险部</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4 col-sm-4">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h4 style="text-align:center;">企业年鉴</h4>
+							</div>
+							<div class="panel-body">
+								<a class="list-group-item" id="dept_1115">客户关爱</a>
+								<a class="list-group-item" id="dept_1116">企业文化</a>
+								<a class="list-group-item" id="dept_1117">社会责任</a>
+								<a class="list-group-item" id="dept_1118">员工风采</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-5 col-sm-3" style="height:280px;">
+				<video width="100%" height="100%" controls poster="${rootPath}/statics/images/video.png">
+				  <source src="${rootPath}/statics/images/齐鲁银行东环支行五星级网点_高清.mp4" type="video/mp4">
+				</video> 
+			</div>
+		</div>
+	</body>
+</html>

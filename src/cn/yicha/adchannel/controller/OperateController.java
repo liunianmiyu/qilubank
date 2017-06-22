@@ -1,6 +1,5 @@
 package cn.yicha.adchannel.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,8 @@ import cn.yicha.adchannel.service.OperateService;
  */
 public class OperateController extends Controller {
 
+	private static final String pageHome = "/WEB-INF/page/front";
+	
 	private OperateService operateService = OperateService.getInstance();
 
 	/**
@@ -85,7 +86,7 @@ public class OperateController extends Controller {
 	public void main() {
 		String id = getPara("id");
 		setAttr("id", id);
-		render("/html/main.html");
+		render(pageHome + "/main.html");
 	}
 
 	public void path() {
@@ -99,7 +100,7 @@ public class OperateController extends Controller {
 		Document doc = operateService.showDoc(idStr);
 		setAttr("id", getPara("id"));
 		setAttr("name", doc.get("name"));
-		render("/html/showDoc.html");
+		render(pageHome + "/showDoc.html");
 	}
 
 	public void getText() {

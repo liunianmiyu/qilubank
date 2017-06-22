@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>齐鲁银行东环支行档案管理平台</title>
+		<link rel="stylesheet" href="${rootPath}/statics/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="${rootPath}/statics/css/bootstrap-theme.min.css" />
+		<link rel="stylesheet" href="${rootPath}/statics/css/admin.css" />
+		<link rel="stylesheet" href="${rootPath}/statics/css/timeline.css" />
+		<link href="//cdn.bootcss.com/metisMenu/2.5.2/metisMenu.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="${rootPath}/statics/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="${rootPath}/statics/css/morris.css" />
+		<link href="${rootPath}/statics/plugins/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+		<style>
+			body{
+				padding: 0;
+				margin: 0;
+				min-width: 1200px !important;
+			}
+			table>thead>tr>th{
+				text-align:center;
+			}
+			table>tbody>tr>td{
+				text-align:center;
+			}
+			table td {
+			  	white-space: nowrap;
+			  	overflow: hidden;
+			  	text-overflow: ellipsis;
+			}
+		</style>
+		<script>
+			var UEDITOR_HOME_URL = "${rootPath}/umeditor/";
+			var rootPath = '${rootPath}';
+		</script>
+	</head>
+<body>
+	<input type="hidden" value="${rootPath}" id="rootPath">
+	<div id="wrapper">
+       	<#include "../common/header_admin.html">
+        <div id="page-wrapper">
+            <!-- /.row -->
+            <div class="row" style="margin-top:15px;">
+            	<div class="panel panel-warning">
+				  <div class="panel-heading">${module.name}>>>${program.name}>>>${item.name}</div>
+				  <div class="panel-body">
+				    <form id="editDocForm" action="editDoc" method="post">
+				    <#if doc ??>
+	            	  <input type="hidden" value="${doc.id}" name="id">
+	            	  <input type="hidden" value="${itemId}" name="itemId">
+					  <div class="form-group">
+					    <label for="">文档标题</label>
+					    <input type="text" class="form-control" name="title" placeholder="文档标题" style="width:300px;" value="${doc.name}">
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleInputPassword1">文档内容</label>
+					   	<!--
+		                	style给定宽度可以影响编辑器的最终宽度
+		                	可以在js中初始化一些内容
+		                -->
+						<script type="text/plain" id="myEditor" style="width:780px;height:339px;">${doc.content}</script>
+						<textarea rows="1" cols="1" name="content" style="display:none;"></textarea>
+					  </div>
+					 <#else>
+					 	<input type="hidden" value="" name="id">
+	            	    <input type="hidden" value="${itemId}" name="itemId">
+					    <div class="form-group">
+					       <label for="">文档标题</label>
+					       <input type="text" class="form-control" name="title" placeholder="文档标题" style="width:300px;" value="">
+					    </div>
+					    <div class="form-group">
+					       <label for="exampleInputPassword1">文档内容</label>
+					   	   <!--
+		                	style给定宽度可以影响编辑器的最终宽度
+		                	可以在js中初始化一些内容
+		                   -->
+						   <script type="text/plain" id="myEditor" style="width:780px;height:339px;"><p></p></script>
+						   <textarea rows="1" cols="1" name="content" style="display:none;"></textarea>
+					    </div>
+					 </#if>
+					  <button type="button" class="btn btn-success submitBtn">提交</button>
+					  <button type="reset" class="btn btn-danger">重置</button>
+					  <a href="${rootPath}/admin?moduleId=${module.id}&programId=${program.id}&itemId=${item.id}" class="btn btn-primary">返回</a>
+					</form>
+				  </div>
+				</div>
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+</body>
+<script src="${rootPath}/statics/libs/jquery.min.js" ></script>
+<script src="${rootPath}/statics/libs/bootstrap.min.js" ></script>
+<script src="${rootPath}/statics/libs/admin.js" ></script>
+<script src="${rootPath}/statics/js/qiluadmin.js"></script>
+<script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdn.bootcss.com/metisMenu/2.5.2/metisMenu.min.js"></script>
+<script type="text/javascript" charset="utf-8" src="${rootPath}/statics/plugins/umeditor/umeditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${rootPath}/statics/plugins/umeditor/umeditor.js"></script>
+<script type="text/javascript" src="${rootPath}/statics/plugins/umeditor/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+$(function(){
+	//初始化UMEditor
+	var um = UM.getEditor('myEditor',{
+		imageUrl:UEDITOR_HOME_URL + "jsp/imageUp.jsp",     //图片上传提交地址
+		imagePath:"${rootPath}/qilubank" , 
+        imageFieldName:"file"   
+	});
+	function hasContent() {
+		return UM.getEditor('myEditor').hasContents();
+	}
+	function getContent(){
+		return UM.getEditor('myEditor').getContent();
+	}
+	
+	$(".submitBtn").on("click", function(){
+		var title = $("#editDocForm input[name='title']").val();
+		if(title == null || title == "") {
+			alert("文档标题不能为空哦!");
+			return false;
+		}
+		if(hasContent()){
+			var content = getContent();
+			$("#editDocForm textarea[name='content']").val(content);
+			$("#editDocForm").submit();
+		}else{
+			alert("文档内容不能空哦!");
+			return false;
+		}
+	});
+});
+</script>
+</html>

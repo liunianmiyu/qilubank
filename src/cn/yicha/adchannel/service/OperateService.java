@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.jfinal.plugin.activerecord.Record;
 
 import cn.yicha.adchannel.dao.OperateDao;
@@ -16,8 +21,6 @@ import cn.yicha.adchannel.model.Program;
 
 /**
  * 
- * @author lixiaowen
- *
  */
 public class OperateService {
 	private OperateDao operateDao = OperateDao.getInstance();
@@ -36,23 +39,59 @@ public class OperateService {
 		return instance;
 	}
 
+	//模块缓存
+	public static Cache<String, List<Module>> moduleCache = CacheBuilder.newBuilder()
+			.expireAfterAccess(24, TimeUnit.HOURS).maximumSize(1000).build();
+	//项目缓存
+	public static Cache<String, List<Program>> programCache = CacheBuilder.newBuilder()
+			.expireAfterAccess(24, TimeUnit.HOURS).maximumSize(1000).build();
+
+	/**
+	 * 查询所有模块
+	 * @return
+	 * @throws ExecutionException
+	 */
+	public List<Module> queryAllModule() throws ExecutionException {
+		return moduleCache.get("module_all", new Callable<List<Module>>() {
+			@Override
+			public List<Module> call() throws Exception {
+				return selectModules();
+			}
+		});
+	}
+	
+	/**
+	 * 根据moduleId查询program
+	 * @param moduleId
+	 * @return
+	 * @throws ExecutionException
+	 */
+	public List<Program> queryProgramByModuleId(final int moduleId) throws ExecutionException {
+		return programCache.get("module_" + moduleId + "_program", new Callable<List<Program>>() {
+			@Override
+			public List<Program> call() throws Exception {
+				return selectPrograms(moduleId);
+			}
+		});
+	}
+
 	/**
 	 * 查询模块和他的下级项目
-	 * 
 	 * @return
+	 * @throws ExecutionException 
 	 */
-	public List<Map<String, Object>> selectMenu() {
+	public List<Map<String, Object>> selectMenu() throws ExecutionException {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		Map<String, Object> map = null;
 		List<Program> temp = null;
 		// 查询模块表
-		List<Module> listModule = operateDao.selectModule();
+		List<Module> listModule = queryAllModule();
 		for (Module m : listModule) {
 			map = new HashMap<String, Object>();
 			map.put("moduleId", m.get("id"));
 			map.put("moduleName", m.get("name"));
 			// 根据模块id查询项目表信息
-			temp = operateDao.selectProgramsByModuleId(m.getInt("id"));
+			temp = queryProgramByModuleId(m.getInt("id"));
 			map.put("programs", temp);
 			list.add(map);
 		}
@@ -60,8 +99,7 @@ public class OperateService {
 	}
 
 	/**
-	 * 根据module id查询module
-	 * 
+	 * 根据moduleId查询module
 	 * @param moduleId
 	 * @return
 	 */
@@ -70,7 +108,6 @@ public class OperateService {
 	}
 
 	/**
-	 * 
 	 * @param programId
 	 * @return
 	 */
@@ -79,7 +116,6 @@ public class OperateService {
 	}
 
 	/**
-	 * 
 	 * @param itemId
 	 * @return
 	 */
@@ -88,7 +124,6 @@ public class OperateService {
 	}
 
 	/**
-	 * 
 	 * @param docId
 	 * @return
 	 */
@@ -97,7 +132,6 @@ public class OperateService {
 	}
 
 	/**
-	 * 
 	 * @param pictureId
 	 * @return
 	 */
@@ -107,7 +141,6 @@ public class OperateService {
 
 	/**
 	 * 所有的module
-	 * 
 	 * @return
 	 */
 	public List<Module> selectModules() {
@@ -115,8 +148,7 @@ public class OperateService {
 	}
 
 	/**
-	 * moduleId 下 所有的 program
-	 * 
+	 * moduleId下 所有的 program
 	 * @param moduleId
 	 * @return
 	 */
@@ -125,7 +157,6 @@ public class OperateService {
 	}
 
 	/**
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -135,7 +166,6 @@ public class OperateService {
 
 	/**
 	 * 根据条目id查询文档信息
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -145,7 +175,6 @@ public class OperateService {
 
 	/**
 	 * 根据条目id查询图片信息
-	 * 
 	 * @param id
 	 * @return
 	 */
@@ -155,7 +184,6 @@ public class OperateService {
 
 	/**
 	 * 依据关键字查询文档
-	 * 
 	 * @param key
 	 * @return
 	 */
@@ -166,11 +194,11 @@ public class OperateService {
 	public List<Picture> searchPicture(String key) {
 		return operateDao.searchPic(key);
 	}
-	
-	public List<Document> selectDocAll(){
+
+	public List<Document> selectDocAll() {
 		return operateDao.selectDocAll();
 	}
-	
+
 	/**
 	 * 根据itemid 查询文档和图片
 	 * 
@@ -178,7 +206,6 @@ public class OperateService {
 	 * @return
 	 */
 	public Map<String, Object> selectDouAndPicByItemId(int itemId) {
-		System.out.println("============ search doc and pic of " + itemId);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("doc", operateDao.selectDocByItemId(itemId));
 		map.put("pic", operateDao.selectPicByItemId(itemId));
@@ -187,7 +214,6 @@ public class OperateService {
 
 	/**
 	 * 根据文档id删除文档内容记录
-	 * 
 	 * @param docId
 	 * @return
 	 */
@@ -197,7 +223,6 @@ public class OperateService {
 
 	/**
 	 * 根据图片id删除图片记录
-	 * 
 	 * @param picId
 	 * @return
 	 */
@@ -220,9 +245,8 @@ public class OperateService {
 			path += "<span class='path' id='path_program_" + re.get("programId").toString() + "'>"
 					+ re.get("programName").toString() + "</span>>>";
 			path += "<span>"
-					+ (re.get("itemName").toString().length() > 40
-							? re.get("itemName").toString().substring(0, 39) + "..." : re.get("itemName").toString())
-					+ "</span>";
+					+ (re.get("itemName").toString().length() > 40 ? re.get("itemName").toString().substring(0, 39)
+							+ "..." : re.get("itemName").toString()) + "</span>";
 		} else if (type == "program" || "program".equals(type)) {// program
 			re = operateDao.selectProgramPath(id);
 			path += "<span class='path' id='path_module_" + re.get("moduleId").toString() + "'>"

@@ -2,6 +2,7 @@ package cn.yicha.adchannel.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -25,9 +26,10 @@ public class OperateController extends Controller {
 
 	/**
 	 * 查询模块和他的下级项目
+	 * @throws ExecutionException 
 	 */
 	@Before(CacheInterceptor.class)
-	public void menu() {
+	public void menu() throws ExecutionException {
 		renderJson(operateService.selectMenu());
 	}
 

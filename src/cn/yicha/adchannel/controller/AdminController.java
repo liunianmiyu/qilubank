@@ -3,6 +3,7 @@ package cn.yicha.adchannel.controller;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import com.jfinal.core.Controller;
 
@@ -29,27 +30,24 @@ public class AdminController extends Controller {
 	private OperateService operateService = OperateService.getInstance();
 	private LoginService loginService = LoginService.getInstance();
 
-	public void index() {
+	/**
+	 * 后台管理页面首页
+	 * @throws ExecutionException
+	 */
+	public void index() throws ExecutionException {
 		int role = getSessionAttr("role");
 		if (role < 1) {
 			redirect("/login");
 		} else {
-			setAttr("moduleId", getPara("moduleId", ""));
-			setAttr("programId", getPara("programId", ""));
-			int itemId = getParaToInt("itemId", 0);
-			if (itemId >= 201 && itemId <= 208) {
-				itemId = getParaToInt("programId");
-			}
-			if (itemId == 0) {
-				setAttr("itemId", "");
-			} else {
-				setAttr("itemId", String.valueOf(itemId));
-			}
-			System.out.println(pageHome + "/index.html");
+			setAttr("menus", operateService.selectMenu());
 			render(pageHome + "/index.html");
 		}
 	}
 
+	public void main() {
+		render(pageHome + "/main.html");
+	}
+	
 	/**
 	 * 所有的一级菜单
 	 */

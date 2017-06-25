@@ -46,11 +46,11 @@ var qiluAdmin = {
     					$("#loginDialog .modal-body").text("用户名或密码不正确，请重新登录!");
     					$("#loginDialog").modal('toggle');
                     }else {
-                    	if(data == "0"){
-                    		window.location.href = qiluAdmin.rootPath + "/";
-                    	}else{
-                    		window.location.href = qiluAdmin.rootPath + "/admin";
-                    	}
+                    	window.location.href = qiluAdmin.rootPath + "/admin";
+//                    	if(data == "0"){
+//                    	}else{
+//                    		window.location.href = qiluAdmin.rootPath + "/admin";
+//                    	}
                     }
                 });
             });

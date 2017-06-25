@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>齐鲁银行</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="http://pku.dizena.com/static/pku/images/favcion.png">
+<link href="${rootPath}/statics/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/AdminLTE.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/pkustyles.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/book.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${rootPath}/statics/libs/jquery.min.js"></script>
+<script type="text/javascript" src="${rootPath}/statics/libs/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+	<script type="text/javascript">
+		window.location.href="http://download.firefox.com.cn/releases/stub/official/zh-CN/Firefox-latest.exe";
+	</script>
+<![endif]-->
+</head>
+<body>
+	<div class="container notice-main">
+		<div class="content col-md-offset-2">
+			<h3 style="text-align:center;">${document.name}</h3>
+			<h5 style="text-align:center;">${document.update_time} by ${document.operate_user} <a href="#">编辑</a></h5>
+			<article>
+				${document.content}
+			</article>
+		</div>
+	</div>
+</body>
+<script>
+	$(function(){
+		$('table').attr('align', "center");
+	})
+</script>
+</html>

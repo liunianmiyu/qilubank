@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>齐鲁银行</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/x-icon" href="http://pku.dizena.com/static/pku/images/favcion.png">
+<link href="${rootPath}/statics/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/AdminLTE.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/pkustyles.css" rel="stylesheet" type="text/statics/css">
+<link href="${rootPath}/statics/css/book.css" rel="stylesheet" type="text/statics/css">
+<script type="text/javascript" src="${rootPath}/statics/libs/jquery.min.js"></script>
+<script type="text/javascript" src="${rootPath}/statics/libs/bootstrap.min.js"></script>
+<!--[if lt IE 9]>
+	<script type="text/javascript">
+		window.location.href="http://download.firefox.com.cn/releases/stub/official/zh-CN/Firefox-latest.exe";
+	</script>
+<![endif]-->
+</head>
+<body>
+	<div class="content-header" style="margin-bottom:20px;">
+      <h1>
+        ${item.name}
+      </h1>
+    </div>
+	<div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">文档</a></li>
+          <li class=""><a href="#tab_2" data-toggle="tab" aria-expanded="false">图片</a></li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab_1">
+		    <!-- 文档列表 -->
+			<#if docs?? >
+			<#list docs as doc>
+			sss
+			<ul class="list-group notice-list">
+			<li class="list-group-item noticeli">
+				<a href="${rootPath}/document?itemId=${item.id}&docId=${doc.id}"> 
+					<span class="title">${doc_index + 1}、${doc.name}</span> 
+					<span class="item-date">${doc.create_time}</span>
+				</a>
+			</li>
+			</ul>
+			</#list>
+			<#else>
+			<div class="box-footer no-padding">
+				<ul class="nav nav-stacked">
+					<li>
+						<a href="/documentV2/10">文档1<span class="pull-right badge bg-blue">2017-06-25 23:30:00</span></a>
+					</li> 
+					<li>
+						<a href="/documentV2/11">文档2<span class="pull-right badge bg-blue">2017-06-25 23:30:00</span></a>
+					</li> 
+					<li>
+						<a href="/documentV2/12">文档3<span class="pull-right badge bg-blue">2017-06-25 23:30:00</span></a>
+					</li> 
+				</ul>
+			</div>
+			</#if>
+			<button type="button" class="btn bg-maroon btn-flat margin">添加</button>
+          </div>
+          <div class="tab-pane" id="tab_2">
+            <div>
+				<#list pics as pic>
+				<div class='col-md-3'>
+			    	<img class='img-responsive' width=250 height=200 src='${rootPath}/${pic.url}' 
+			    	onerror="this.onerror=null;this.src='${rootPath}/statics/images/default.png'">
+				</div>
+				</#list>
+			</div>
+			<div>
+				<button type="button" class="btn bg-maroon btn-flat margin">添加</button>
+			</div>
+          </div>
+        </div>
+     </div>
+</body>
+</html>

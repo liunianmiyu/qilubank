@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>齐鲁银行</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="${rootPath}/statics/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/AdminLTE.min.css" rel="stylesheet" type="text/css">
+<link href="${rootPath}/statics/css/pkustyles.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${rootPath}/statics/libs/jquery.min.js"></script>
+<script type="text/javascript" src="${rootPath}/statics/libs/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="box box-widget widget-user-2">
+		<div class="widget-user-header bg-yellow">
+			<!-- /.widget-user-image -->
+			<div class="widget-user-image">
+                <img class="img-circle" src="${rootPath}/statics/images/user7-128x128.jpg" alt="User Avatar">
+              </div>
+			<h3 class="widget-user-username">${program.name}</h3>
+			<h5 class="widget-user-desc">Lead Developer</h5>
+		</div>
+		<div class="box-footer no-padding">
+			<ul class="nav nav-stacked">
+				<#list items as item>
+				<li>
+					<a href="/contentsV2/${item.id}">${item_index + 1}、${item.name}
+						<span class="pull-right badge bg-blue">文档 31</span>
+						<span class="pull-right badge bg-green">图片 31</span>
+					</a>
+				</li> 
+				</#list>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

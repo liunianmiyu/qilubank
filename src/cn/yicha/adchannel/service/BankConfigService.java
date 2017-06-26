@@ -1,7 +1,6 @@
 package cn.yicha.adchannel.service;
 
 import cn.yicha.adchannel.dao.BankConfigDao;
-import cn.yicha.adchannel.dao.UserDao;
 import cn.yicha.adchannel.model.BankConfig;
 
 /**

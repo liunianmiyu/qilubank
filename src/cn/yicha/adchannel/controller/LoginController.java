@@ -1,7 +1,11 @@
 package cn.yicha.adchannel.controller;
 
 import cn.yicha.adchannel.model.User;
+import cn.yicha.adchannel.service.BankService;
 import cn.yicha.adchannel.service.LoginService;
+import cn.yicha.adchannel.service.ParseDoc;
+
+import java.util.HashMap;
 
 import com.jfinal.aop.Clear;
 import com.jfinal.core.Controller;
@@ -14,6 +18,7 @@ import com.jfinal.core.Controller;
 public class LoginController extends Controller {
 
 	private LoginService loginService = LoginService.getInstance();
+	private BankService bankService = BankService.getInstance();
 
 	/**
 	 * 登陆页
@@ -47,6 +52,14 @@ public class LoginController extends Controller {
 		}
 	}
 
+	/**
+	 * 账号申请
+	 */
+	@Clear
+	public void apply() {
+		render("/WEB-INF/page/apply.html");
+	}
+	
 	/**
 	 * 退出登录
 	 */

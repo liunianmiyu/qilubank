@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>星级银行档案管理平台</title>
+    <title>账号申请|星级银行档案管理平台</title>
     <link href="${rootPath}/statics/css/bootstrap.min.css" rel="stylesheet">
     <link href="${rootPath}/statics/css/metisMenu.min.css" rel="stylesheet">
     <link href="${rootPath}/statics/css/admin.css" rel="stylesheet">
@@ -14,9 +14,7 @@
     	html,body{ margin:0px; height:100%;} 
         a{text-decoration: none;}
         body{
-            /*height: 100%;*/
-            /*width:100%;*/
-            background: url(${rootPath}/statics/images/login-bg.jpg) center center / cover no-repeat fixed;
+            background: url(https://dn-coding-net-production-static.qbox.me/fb78318a-d895-418f-ad80-172bbafc35e0.jpg) center center / cover no-repeat fixed;
         }
         .login-wrap{
             position: relative;
@@ -72,37 +70,29 @@
 	<input type="hidden" value="${rootPath}" id="rootPath">
     <div class="container" style="padding-top:70px;">
         <div class="login-wrap">
-            
-        
         	<div class="row">
-        			<!-- <img src="${rootPath}/images/qilu.png" width="400px" height="200px" style="margin-top:20px;"> -->
-        			<h2 class="text-center">用户登录</h2>
+        			<h2 class="text-center">账号申请</h2>
         	</div>
             <div class="row">
-                
                 <div class="login-panel" style="margin-top:15px;">
-                
                     <form role="form" id="login-form">
                         <fieldset>
                             <div class="form-group">
                                 <input class="form-control" placeholder="用户名" name="username" type="text" autofocus>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" placeholder="密码" name="userpass" type="password" value="">
+                                <input class="form-control" placeholder="邮箱" name="email" type="text" autofocus>
                             </div>
-                            <div class="checkbox text-center" style="margin:20px 0">
-                            	<input type="hidden" value="0" name="role">
-                                <!-- <label class="checkbox-inline">
-                                    <input name="role" type="radio" value="0" checked="checked"> 游客
-                                    <input name="role" type="radio" value="1" style="margin-left:50px;"> 管理员
-                                </label> -->
+                            <div class="form-group">
+                                <input class="form-control" placeholder="手机号" name="phone" type="text" autofocus>
                             </div>
-                            <!-- Change this to a button or input when using this as a form -->
-                            <a href="javascript:void(0)" class="btn btn-lg btn-success btn-block" id="login_btn">登录</a>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="所在银行" name="bank" type="text" autofocus>
+                            </div>
+                            <a href="javascript:void(0)" class="btn btn-lg btn-success btn-block" id="login_btn">立即申请</a>
                         </fieldset>
                     </form>
                 </div>
-                
             </div>
         </div>
     </div>

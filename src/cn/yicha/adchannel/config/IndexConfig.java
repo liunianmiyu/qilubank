@@ -14,6 +14,7 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 
 import cn.yicha.adchannel.inteceptor.LoginInterceptor;
+import cn.yicha.adchannel.model.Bank;
 import cn.yicha.adchannel.model.Document;
 import cn.yicha.adchannel.model.Item;
 import cn.yicha.adchannel.model.Module;
@@ -73,6 +74,9 @@ public class IndexConfig extends JFinalConfig {
 		arpYx.addMapping("document", Document.class);
 		//图片表
 		arpYx.addMapping("picture", Picture.class);
+		//银行信息表
+		arpYx.addMapping("bank", Bank.class);
+		
 	}
 
 	@Override

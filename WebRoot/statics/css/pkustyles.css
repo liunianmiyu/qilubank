@@ -185,7 +185,6 @@ h2 {
 	text-decoration: none;
 	cursor:pointer;
 }
-
 #buttom{
 	background: none repeat scroll 0 0 #000;
 	height:100px !important;
@@ -292,5 +291,42 @@ h2 {
 
    .pagination > li:first-child > a:active,a:hover{
    	color: white;
-   	margin:1px;
+   	/*margin:1px;*/
    }
+   
+   .nav-stacked > li > a{
+      
+   }
+   span.bg-blue,span.bg-green{
+      display: inline-block;
+      margin-top: 3px;
+      padding: 4px 10px;
+   }
+   .pull-right{
+      margin-left: 8px;
+   }
+   div.layui-layer-molv .layui-layer-btn a{
+      background: #0073b7;
+   }
+   div.layui-layer-molv .layui-layer-btn .layui-layer-btn0:hover{
+      opacity: 1;
+      background-color:#0069C4;
+   }
+   div.layui-layer-molv .layui-layer-btn .layui-layer-btn1{
+      background-color:#999;
+      color:#333;
+   }
+   div.layui-layer-molv .layui-layer-btn .layui-layer-btn1:hover{
+
+   }
+   .bg-blue:hover{
+      background-color:#0069C4!important;
+   }
+   .bg-green:hover{
+      background-color:#06B753!important;
+   }
+
+   div.layui-layer-molv .layui-layer-title{
+      background:#2D78B0;
+   }
+   

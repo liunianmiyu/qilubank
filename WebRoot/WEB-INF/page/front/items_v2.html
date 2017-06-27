@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>齐鲁银行</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="${rootPath}/statics/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -27,7 +26,8 @@
 			<ul class="nav nav-stacked">
 				<#list items as item>
 				<li>
-					<a href="/contentsV2/${item.id}">${item_index + 1}、${item.name}
+					<a href="/contentsV2/${item.id}" style="padding: 10px 15px 30px;">${item_index + 1}、${item.name}
+						<br>
 						<span class="pull-right badge bg-blue">文档 31</span>
 						<span class="pull-right badge bg-green">图片 31</span>
 					</a>

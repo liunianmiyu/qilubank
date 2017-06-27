@@ -75,7 +75,7 @@ public class IndexConfig extends JFinalConfig {
 		//图片表
 		arpYx.addMapping("picture", Picture.class);
 		//银行信息表
-		arpYx.addMapping("bank", Bank.class);
+	    //arpYx.addMapping("bank", Bank.class);
 		
 	}
 
